@@ -1,1 +1,1 @@
-Magic attacks are now 6x as powerful, but mana regens and heals 1/6 as much.
+Magic attacks are now 6x as powerful, but mana recovers and regenerates 1/6 as much.
