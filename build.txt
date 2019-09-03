@@ -2,3 +2,4 @@ author = hamstar
 version = 1.1.0
 displayName = Powerful Magic
 buildIgnore = *.csproj, *.user, *.bat, obj\*, bin\*, .vs\*, .git\*
+homepage = https://github.com/hamstar0/tml-powerfulmagic-mod
