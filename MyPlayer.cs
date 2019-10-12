@@ -31,7 +31,7 @@ namespace PowerfulMagic {
 			this.player.nebulaManaCounter -= this.player.nebulaLevelMana / 2;
 
 			if( this.player.manaRegenCount > 0 ) {
-				float mul = config?.ManaReduceScale ?? 1f;
+				float mul = config?.ManaScale ?? 1f;
 
 				this.player.manaRegenCount -= (int)((float)this.player.manaRegen * mul );
 			}

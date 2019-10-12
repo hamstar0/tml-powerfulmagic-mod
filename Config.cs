@@ -11,12 +11,12 @@ namespace PowerfulMagic {
 
 		////////////////
 
-		[Range(0f, 999f)]
+		[Range( 0f, 50f )]
 		[DefaultValue(6f)]
 		public float DamageScale = 6f;
 
-		[Range( 0f, 99f )]
+		[Range( 0f, 5f )]
 		[DefaultValue( 1f / 6f )]
-		public float ManaReduceScale = 1f / 6f;	//was 5/6?
+		public float ManaScale = 1f / 6f;	//was 5/6?
 	}
 }

@@ -34,7 +34,7 @@ namespace PowerfulMagic {
 
 			if( item.healMana > 0 ) {
 				float dmgMul = config?.DamageScale ?? 1f;
-				float manaMul = config?.ManaReduceScale ?? 1f;
+				float manaMul = config?.ManaScale ?? 1f;
 
 				player.AddBuff( BuffID.ManaSickness, 60 * 5 * (int)( dmgMul * 0.5f ) );
 				player.statMana -= (int)( (float)item.healMana * manaMul );
@@ -47,7 +47,7 @@ namespace PowerfulMagic {
 			var config = mymod.Config;
 
 			if( item.type == ItemID.Star ) {
-				float manaMul = config?.ManaReduceScale ?? 1f;
+				float manaMul = config?.ManaScale ?? 1f;
 
 				player.statMana -= (int)(100f * manaMul);
 			}
