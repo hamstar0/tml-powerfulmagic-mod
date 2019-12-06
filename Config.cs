@@ -17,6 +17,10 @@ namespace PowerfulMagic {
 
 		[Range( 0f, 5f )]
 		[DefaultValue( 1f / 6f )]
-		public float ManaScale = 1f / 6f;	//was 5/6?
+		public float ManaScale = 1f / 6f;   //was 5/6?
+
+
+		[DefaultValue( true )]
+		public bool RemoveMerchantLesserPotions { get; set; } = true;
 	}
 }

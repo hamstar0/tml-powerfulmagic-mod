@@ -1,5 +1,6 @@
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 
@@ -36,6 +37,23 @@ namespace PowerfulMagic {
 			PowerfulMagicMod.Instance = null;
 		}
 
+
+		////////////////
+
+
+		public override void AddRecipes() {
+			var manaPotRecipe = new ModRecipe( this );
+			manaPotRecipe.AddIngredient( ItemID.Bottle, 2 );
+			manaPotRecipe.AddIngredient( ItemID.FallenStar, 1 );
+			//manaPotRecipe.AddIngredient( ItemID.GlowingMushroom, 1 );
+			manaPotRecipe.AddIngredient( ItemID.Gel, 2 );
+			manaPotRecipe.AddTile( TileID.Bottles );
+			manaPotRecipe.SetResult( ItemID.LesserManaPotion, 2 );
+			manaPotRecipe.AddRecipe();
+		}
+
+
+		////////////////
 
 		internal void RunOscillation() {
 			if( this.OscillateDir ) {
