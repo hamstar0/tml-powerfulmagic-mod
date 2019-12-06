@@ -15,14 +15,18 @@ namespace PowerfulMagic {
 
 			var mymod = (PowerfulMagicMod)this.mod;
 			var config = mymod.Config;
+			if( config == null ) {
+				return;
+			}
 
-			int newDmg = (int)((config?.DamageScale ?? 1f) * (float)Main.LocalPlayer.GetWeaponDamage(item));
-			int percent = (int)(config?.DamageScale ?? 1f) * 100;
+			//int newDmg = (int)((config?.DamageScale ?? 1f) * (float)Main.LocalPlayer.GetWeaponDamage(item));
+			int newDmg = Main.LocalPlayer.GetWeaponDamage( item );
+			int percent = (int)config.DamageScale * 100;
 
-			var tip = new TooltipLine( this.mod, "PowerfulMagicTip", "Magic scaled "+percent+"x: "+newDmg );
+			var tip = new TooltipLine( this.mod, "PowerfulMagicTip", "Magic scaled "+percent+"%: "+newDmg );
 			tip.overrideColor = Color.Lerp( Color.Black, Color.Lime, 0.8f + (0.2f * mymod.Oscillate) );
 
-			tooltips.Insert( 0, tip );
+			tooltips.Insert( 1, tip );
 		}
 
 
@@ -31,25 +35,48 @@ namespace PowerfulMagic {
 		public override bool ConsumeItem( Item item, Player player ) {
 			var mymod = (PowerfulMagicMod)this.mod;
 			var config = mymod.Config;
-
-			if( item.healMana > 0 ) {
-				float dmgMul = config?.DamageScale ?? 1f;
-				float manaMul = config?.ManaScale ?? 1f;
-
-				player.AddBuff( BuffID.ManaSickness, 60 * 5 * (int)( dmgMul * 0.5f ) );
-				player.statMana -= (int)( (float)item.healMana * manaMul );
+			if( config == null ) {
+				return false;
 			}
+			
+			if( item.healMana > 0 ) {
+				//float dmgMul = config?.DamageScale ?? 1f;
+				float manaMul = 1f - config.ManaScale;
+
+				//player.AddBuff( BuffID.ManaSickness, 60 * 5 * (int)( dmgMul * 0.5f ) );
+				player.statMana -= (int)( (float)item.healMana * manaMul );
+
+				for( int idx=0; idx < Main.combatText.Length; idx++ ) {
+					CombatText txt = Main.combatText[idx];
+					if( txt == null || !txt.active ) { continue; }
+				
+					if( txt.text.Equals(item.healMana+"") ) {
+						txt.text = (int)((float)item.healMana * config.ManaScale) + "";
+						break;
+					}
+				}
+			}
+
 			return true;
 		}
+
+
+		////
 
 		public override bool OnPickup( Item item, Player player ) {
 			var mymod = (PowerfulMagicMod)this.mod;
 			var config = mymod.Config;
+			if( config == null ) {
+				return false;
+			}
 
-			if( item.type == ItemID.Star ) {
-				float manaMul = config?.ManaScale ?? 1f;
-
+			if( item.type == ItemID.Star || item.type == ItemID.SoulCake || item.type == ItemID.SugarPlum ) {
+				float manaMul = 1f - config.ManaScale;
+				
 				player.statMana -= (int)(100f * manaMul);
+
+				var myplayer = player.GetModPlayer<PowerfulMagicPlayer>();
+				myplayer.RecentPickup = true;
 			}
 
 			return true;

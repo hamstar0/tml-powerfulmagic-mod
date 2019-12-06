@@ -5,10 +5,40 @@ using Terraria.ModLoader;
 
 namespace PowerfulMagic {
 	class PowerfulMagicPlayer : ModPlayer {
+		public bool RecentPickup { get; internal set; } = false;
+
+		////
+
+		public override bool CloneNewInstances => false;
+
+
+
+		////////////////
+
 		public override void PreUpdate() {
 			if( this.player.whoAmI == Main.LocalPlayer.whoAmI ) {
-				var mymod = (PowerfulMagicMod)this.mod;
-				mymod.RunOscillation();
+				this.PreUpdateLocal();
+			}
+		}
+
+
+		private void PreUpdateLocal() {
+			var mymod = (PowerfulMagicMod)this.mod;
+			mymod.RunOscillation();
+
+			if( this.RecentPickup ) {
+				this.RecentPickup = false;
+
+				for( int idx = 0; idx < Main.combatText.Length; idx++ ) {
+					CombatText txt = Main.combatText[idx];
+					if( txt == null || !txt.active ) { continue; }
+
+					if( txt.text.Equals( "100" ) ) {
+						txt.text = (int)( (float)100 * mymod.Config.ManaScale ) + "";
+						Main.NewText( "! OnPickup " + txt.text );
+						break;
+					}
+				}
 			}
 		}
 
@@ -32,8 +62,9 @@ namespace PowerfulMagic {
 
 			if( this.player.manaRegenCount > 0 ) {
 				float mul = config?.ManaScale ?? 1f;
+				mul = 1f - mul;
 
-				this.player.manaRegenCount -= (int)((float)this.player.manaRegen * mul );
+				this.player.manaRegenCount -= (int)((float)this.player.manaRegen * mul);
 			}
 		}
 	}

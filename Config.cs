@@ -1,4 +1,3 @@
-using HamstarHelpers.Classes.UI.ModConfig;
 using System;
 using System.ComponentModel;
 using Terraria;
@@ -13,8 +12,8 @@ namespace PowerfulMagic {
 		////////////////
 
 		[Range( 0f, 50f )]
-		[DefaultValue(6f)]
-		public float DamageScale = 6f;
+		[DefaultValue(4f)]
+		public float DamageScale = 4f;
 
 		[Range( 0f, 5f )]
 		[DefaultValue( 1f / 6f )]
