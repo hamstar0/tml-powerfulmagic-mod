@@ -50,9 +50,8 @@ namespace PowerfulMagic {
 		public override void GetHealMana( Item item, Player player, bool quickHeal, ref int healValue ) {
 			var mymod = (PowerfulMagicMod)this.mod;
 			var config = mymod.Config;
-			float manaMul = 1f - config.ManaHealScale;
 
-			healValue = (int)((float)healValue * manaMul);
+			healValue = (int)((float)healValue * config.ManaHealScale);
 		}
 		
 		//public override bool ConsumeItem( Item item, Player player ) {
