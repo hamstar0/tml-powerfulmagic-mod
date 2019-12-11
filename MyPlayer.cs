@@ -34,8 +34,7 @@ namespace PowerfulMagic {
 					if( txt == null || !txt.active ) { continue; }
 
 					if( txt.text.Equals( "100" ) ) {
-						txt.text = (int)( (float)100 * mymod.Config.ManaScale ) + "";
-						Main.NewText( "! OnPickup " + txt.text );
+						txt.text = (int)( (float)100 * mymod.Config.ManaHealScale ) + "";
 						break;
 					}
 				}
@@ -61,7 +60,7 @@ namespace PowerfulMagic {
 			this.player.nebulaManaCounter -= this.player.nebulaLevelMana / 2;
 
 			if( this.player.manaRegenCount > 0 ) {
-				float mul = config?.ManaScale ?? 1f;
+				float mul = config?.ManaHealScale ?? 1f;
 				mul = 1f - mul;
 
 				this.player.manaRegenCount -= (int)((float)this.player.manaRegen * mul);

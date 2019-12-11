@@ -19,45 +19,67 @@ namespace PowerfulMagic {
 				return;
 			}
 
-			//int newDmg = (int)((config?.DamageScale ?? 1f) * (float)Main.LocalPlayer.GetWeaponDamage(item));
-			int newDmg = Main.LocalPlayer.GetWeaponDamage( item );
-			int percent = (int)config.DamageScale * 100;
+			//int newDmg = Main.LocalPlayer.GetWeaponDamage( item );
+			int dmgPercent = (int)(config.DamageScale * 100f);
+			int manaPercent = (int)(config.WeaponManaConsumeMulitplier * 100f);
 
-			var tip = new TooltipLine( this.mod, "PowerfulMagicTip", "Magic scaled "+percent+"%: "+newDmg );
-			tip.overrideColor = Color.Lerp( Color.Black, Color.Lime, 0.8f + (0.2f * mymod.Oscillate) );
+			var tip1 = new TooltipLine( this.mod, "PowerfulMagicDmgUpTip", "Magic increased "+dmgPercent+"% of base amount" );
+			tip1.overrideColor = Color.Lerp( Color.Black, Color.Lime, 0.8f + (0.2f * mymod.Oscillate) );
+			var tip2 = new TooltipLine( this.mod, "PowerfulMagicManaUpTip", "Mana use increased "+manaPercent+"% of base amount" );
+			tip2.overrideColor = Color.Lerp( Color.Black, Color.Lime, 0.8f + (0.2f * mymod.Oscillate) );
 
-			tooltips.Insert( 1, tip );
+			tooltips.Insert( 1, tip1 );
+			tooltips.Insert( 2, tip2 );
+		}
+
+
+		////////////////
+		public override void ModifyManaCost( Item item, Player player, ref float reduce, ref float mult ) {
+			var mymod = (PowerfulMagicMod)this.mod;
+			var config = mymod.Config;
+			if( config == null ) {
+				return;
+			}
+
+			reduce *= config.WeaponManaConsumeMulitplier;
 		}
 
 
 		////////////////
 
-		public override bool ConsumeItem( Item item, Player player ) {
+		public override void GetHealMana( Item item, Player player, bool quickHeal, ref int healValue ) {
+			var mymod = (PowerfulMagicMod)this.mod;
+			var config = mymod.Config;
+			float manaMul = 1f - config.ManaHealScale;
+
+			healValue = (int)((float)healValue * manaMul);
+		}
+		
+		//public override bool ConsumeItem( Item item, Player player ) {
+		public override void OnConsumeMana( Item item, Player player, int manaConsumed ) {
 			var mymod = (PowerfulMagicMod)this.mod;
 			var config = mymod.Config;
 			if( config == null ) {
-				return false;
+				return;// false;
 			}
 			
 			if( item.healMana > 0 ) {
-				//float dmgMul = config?.DamageScale ?? 1f;
-				float manaMul = 1f - config.ManaScale;
+				/*float manaMul = 1f - config.ManaScale;
 
-				//player.AddBuff( BuffID.ManaSickness, 60 * 5 * (int)( dmgMul * 0.5f ) );
 				player.statMana -= (int)( (float)item.healMana * manaMul );
+				player.statMana = player.statMana < 0 ? 0 : player.statMana;*/
 
 				for( int idx=0; idx < Main.combatText.Length; idx++ ) {
 					CombatText txt = Main.combatText[idx];
 					if( txt == null || !txt.active ) { continue; }
 				
 					if( txt.text.Equals(item.healMana+"") ) {
-						txt.text = (int)((float)item.healMana * config.ManaScale) + "";
+						txt.text = (int)((float)item.healMana * config.ManaHealScale) + "";
 						break;
 					}
 				}
 			}
-
-			return true;
+			//return true;
 		}
 
 
@@ -71,9 +93,10 @@ namespace PowerfulMagic {
 			}
 
 			if( item.type == ItemID.Star || item.type == ItemID.SoulCake || item.type == ItemID.SugarPlum ) {
-				float manaMul = 1f - config.ManaScale;
+				float manaMul = 1f - config.ManaHealScale;
 				
 				player.statMana -= (int)(100f * manaMul);
+				player.statMana = player.statMana < 0 ? 0 : player.statMana;
 
 				var myplayer = player.GetModPlayer<PowerfulMagicPlayer>();
 				myplayer.RecentPickup = true;

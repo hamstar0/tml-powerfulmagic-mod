@@ -17,7 +17,12 @@ namespace PowerfulMagic {
 
 		[Range( 0f, 5f )]
 		[DefaultValue( 1f / 6f )]
-		public float ManaScale = 1f / 6f;   //was 5/6?
+		public float ManaHealScale = 1f / 6f;   //was 5/6?
+
+
+		[Range( 0f, 20f )]
+		[DefaultValue( 2f )]
+		public float WeaponManaConsumeMulitplier { get; set; } = 2f;
 
 
 		[DefaultValue( true )]

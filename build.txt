@@ -1,5 +1,5 @@
 author = hamstar
-version = 1.3.0
+version = 1.4.0
 displayName = Powerful Magic
 buildIgnore = *.csproj, *.user, *.bat, obj\*, bin\*, .vs\*, .git\*
 homepage = https://forums.terraria.org/index.php?threads/powerful-magic-6x-magic-damage-1-6-mana-regen-heal-simple-mod.76709/
