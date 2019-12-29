@@ -12,12 +12,20 @@ namespace PowerfulMagic {
 		////////////////
 
 		[Range( 0f, 50f )]
-		[DefaultValue(4f)]
-		public float DamageScale = 4f;
+		[DefaultValue(3f)]
+		public float DamageScale { get; set; } = 3f;
 
 		[Range( 0f, 5f )]
-		[DefaultValue( 1f / 6f )]
-		public float ManaHealScale = 1f / 6f;   //was 5/6?
+		[DefaultValue( 1f / 5f )]
+		public float ManaHealScale { get; set; } = 1f / 5f;
+
+		[Range( 0f, 5f )]
+		[DefaultValue( 1f / 3f )]
+		public float MaxManaSicknessDamageScale { get; set; } = 1f / 3f;
+
+		[Range( 1, 301 )]
+		[DefaultValue( 180 )]
+		public int ManaSicknessMaximumTicksAllowedToEnableAttacks { get; set; } = 180;
 
 
 		[Range( 0f, 20f )]

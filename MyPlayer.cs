@@ -1,5 +1,6 @@
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 
@@ -44,12 +45,37 @@ namespace PowerfulMagic {
 
 		////////////////
 
+		public override bool PreItemCheck() {
+			Item heldItem = this.player.HeldItem;
+			if( heldItem == null || heldItem.IsAir || !heldItem.magic ) {
+				return base.PreItemCheck();
+			}
+
+			int manaSicknessBuffIdx = this.player.FindBuffIndex( BuffID.ManaSickness );
+			int manaSicknessTicks = manaSicknessBuffIdx != -1
+				? this.player.buffTime[manaSicknessBuffIdx]
+				: 0;
+
+			return manaSicknessTicks < PowerfulMagicMod.Instance.Config.ManaSicknessMaximumTicksAllowedToEnableAttacks;
+		}
+
+
+		////////////////
+
 		public override void ModifyWeaponDamage( Item item, ref float directScale, ref float afterScale, ref float flat ) {
 			if( item.magic ) {
 				var mymod = (PowerfulMagicMod)this.mod;
 				var config = mymod.Config;
 
-				afterScale *= config?.DamageScale ?? 1f;
+				if( config != null ) {
+					int manaSicknessBuffIdx = this.player.FindBuffIndex( BuffID.ManaSickness );
+					int manaSicknessTicks = manaSicknessBuffIdx != -1
+						? this.player.buffTime[ manaSicknessBuffIdx ]
+						: 0;
+
+					afterScale *= config.DamageScale;
+					afterScale *= 1f - ((manaSicknessTicks / 300) * config.MaxManaSicknessDamageScale);
+				}
 			}
 		}
 
