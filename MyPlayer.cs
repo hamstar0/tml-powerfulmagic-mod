@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 namespace PowerfulMagic {
 	class PowerfulMagicPlayer : ModPlayer {
 		public bool RecentPickup { get; internal set; } = false;
+		public int ManaBeforePickup { get; internal set; } = -1;
 
 		////
 
@@ -30,11 +31,17 @@ namespace PowerfulMagic {
 			if( this.RecentPickup ) {
 				this.RecentPickup = false;
 
+				PowerfulMagicItem.OnManaPickup( this.player, this.ManaBeforePickup );
+
 				for( int idx = 0; idx < Main.combatText.Length; idx++ ) {
 					CombatText txt = Main.combatText[idx];
 					if( txt == null || !txt.active ) { continue; }
 
 					if( txt.text.Equals( "100" ) ) {
+						if( PowerfulMagicMod.Instance.Config.DebugModeInfo ) {
+							Main.NewText( "Old mana heal? amount from recent pickup: 100" );
+						}
+
 						txt.text = (int)( (float)100 * mymod.Config.ManaHealScale ) + "";
 						break;
 					}
@@ -88,6 +95,10 @@ namespace PowerfulMagic {
 			if( this.player.manaRegenCount > 0 ) {
 				float mul = config?.ManaHealScale ?? 1f;
 				mul = 1f - mul;
+
+				if( PowerfulMagicMod.Instance.Config.DebugModeInfo ) {
+					//DebugHelpers.Print( "manaregen", "Old mana regen amount: "+this.player.manaRegenCount );
+				}
 
 				this.player.manaRegenCount -= (int)((float)this.player.manaRegen * mul);
 			}

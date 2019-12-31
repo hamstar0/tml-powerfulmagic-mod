@@ -11,6 +11,10 @@ namespace PowerfulMagic {
 
 		////////////////
 
+		public bool DebugModeInfo { get; set; } = false;
+
+		////
+
 		[Range( 0f, 50f )]
 		[DefaultValue(3f)]
 		public float DamageScale { get; set; } = 3f;
@@ -29,8 +33,8 @@ namespace PowerfulMagic {
 
 
 		[Range( 0f, 20f )]
-		[DefaultValue( 2f )]
-		public float WeaponManaConsumeMulitplier { get; set; } = 2f;
+		[DefaultValue( 2.5f )]
+		public float WeaponManaConsumeMulitplier { get; set; } = 2.5f;
 
 
 		[DefaultValue( true )]

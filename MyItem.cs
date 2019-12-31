@@ -8,6 +8,18 @@ using Terraria.ModLoader;
 
 namespace PowerfulMagic {
 	class PowerfulMagicItem : GlobalItem {
+		internal static void OnManaPickup( Player player, int manaBeforePickup ) {
+			var mymod = PowerfulMagicMod.Instance;
+			var config = mymod.Config;
+
+			int newMana = (int)( manaBeforePickup + ( 100f * config.ManaHealScale ) );
+			player.statMana = Math.Min( newMana, player.statManaMax2 );
+		}
+
+
+
+		////////////////
+
 		public override void ModifyTooltips( Item item, List<TooltipLine> tooltips ) {
 			if( !item.magic ) {
 				return;
@@ -34,6 +46,7 @@ namespace PowerfulMagic {
 
 
 		////////////////
+
 		public override void ModifyManaCost( Item item, Player player, ref float reduce, ref float mult ) {
 			var mymod = (PowerfulMagicMod)this.mod;
 			var config = mymod.Config;
@@ -50,6 +63,10 @@ namespace PowerfulMagic {
 		public override void GetHealMana( Item item, Player player, bool quickHeal, ref int healValue ) {
 			var mymod = (PowerfulMagicMod)this.mod;
 			var config = mymod.Config;
+
+			if( config.DebugModeInfo ) {
+				Main.NewText("Old mana heal value for "+item.Name+": "+healValue);
+			}
 
 			healValue = (int)((float)healValue * config.ManaHealScale);
 		}
@@ -73,6 +90,10 @@ namespace PowerfulMagic {
 					if( txt == null || !txt.active ) { continue; }
 				
 					if( txt.text.Equals(item.healMana+"") ) {
+						if( config.DebugModeInfo ) {
+							Main.NewText( "Old mana heal amount on consume of " + item.Name + ": " + item.healMana );
+						}
+
 						txt.text = (int)((float)item.healMana * config.ManaHealScale) + "";
 						break;
 					}
@@ -86,22 +107,21 @@ namespace PowerfulMagic {
 
 		public override bool OnPickup( Item item, Player player ) {
 			var mymod = (PowerfulMagicMod)this.mod;
-			var config = mymod.Config;
-			if( config == null ) {
-				return false;
+			if( mymod.Config == null ) {
+				return base.OnPickup( item, player );
 			}
 
 			if( item.type == ItemID.Star || item.type == ItemID.SoulCake || item.type == ItemID.SugarPlum ) {
-				float manaMul = 1f - config.ManaHealScale;
-				
-				player.statMana -= (int)(100f * manaMul);
-				player.statMana = player.statMana < 0 ? 0 : player.statMana;
+				if( mymod.Config.DebugModeInfo ) {
+					Main.NewText( "Old mana heal amount on pickup of " + item.Name + ": 100" );
+				}
 
 				var myplayer = player.GetModPlayer<PowerfulMagicPlayer>();
 				myplayer.RecentPickup = true;
+				myplayer.ManaBeforePickup = player.statMana;
 			}
 
-			return true;
+			return base.OnPickup( item, player );
 		}
 	}
 }
