@@ -20,6 +20,17 @@ namespace PowerfulMagic {
 
 		////////////////
 
+		public override void SetDefaults( Item item ) {
+			if( PowerfulMagicMod.Instance.Config.RemoveItemArcanePrefix ) {
+				while( item.prefix == PrefixID.Arcane ) {
+					item.Prefix( -1 );
+				}
+			}
+		}
+
+
+		////////////////
+
 		public override void ModifyTooltips( Item item, List<TooltipLine> tooltips ) {
 			if( !item.magic ) {
 				return;
