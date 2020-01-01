@@ -24,6 +24,10 @@ namespace PowerfulMagic {
 		public float ManaHealScale { get; set; } = 1f / 5f;
 
 		[Range( 0f, 5f )]
+		[DefaultValue( 1f / 10f )]
+		public float ManaRegenScale { get; set; } = 1f / 10f;
+
+		[Range( 0f, 5f )]
 		[DefaultValue( 1f / 3f )]
 		public float MaxManaSicknessDamageScale { get; set; } = 1f / 3f;
 
@@ -34,7 +38,7 @@ namespace PowerfulMagic {
 
 		[Range( 0f, 20f )]
 		[DefaultValue( 2.5f )]
-		public float WeaponManaConsumeMulitplier { get; set; } = 2.5f;
+		public float WeaponManaConsumeMulitplier { get; set; } = 3f;
 
 
 		[DefaultValue( true )]

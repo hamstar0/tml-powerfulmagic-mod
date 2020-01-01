@@ -69,6 +69,13 @@ namespace PowerfulMagic {
 
 		////////////////
 
+		public override void PreUpdateBuffs() {
+			this.UpdateManaRegen();
+		}
+
+
+		////////////////
+
 		public override void ModifyWeaponDamage( Item item, ref float directScale, ref float afterScale, ref float flat ) {
 			if( item.magic ) {
 				var mymod = (PowerfulMagicMod)this.mod;
@@ -86,21 +93,22 @@ namespace PowerfulMagic {
 			}
 		}
 
-		public override void UpdateLifeRegen() {
+		//public override void UpdateLifeRegen() {
+		public void UpdateManaRegen() {
 			var mymod = (PowerfulMagicMod)this.mod;
 			var config = mymod.Config;
 
 			this.player.nebulaManaCounter -= this.player.nebulaLevelMana / 2;
 
 			if( this.player.manaRegenCount > 0 ) {
-				float mul = config?.ManaHealScale ?? 1f;
+				float mul = config?.ManaRegenScale ?? 1f;
 				mul = 1f - mul;
 
 				if( PowerfulMagicMod.Instance.Config.DebugModeInfo ) {
 					//DebugHelpers.Print( "manaregen", "Old mana regen amount: "+this.player.manaRegenCount );
 				}
 
-				this.player.manaRegenCount -= (int)((float)this.player.manaRegen * mul);
+				this.player.manaRegenCount -= (int)( (float)this.player.manaRegen * mul );
 			}
 		}
 	}
