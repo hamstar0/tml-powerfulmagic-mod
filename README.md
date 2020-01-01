@@ -1,5 +1,5 @@
 # Powerful Magic
 
-Magic attacks are now 6x as powerful, but mana restoring items and natural regeneration only recover 1/6 as much. Configurable.
+Magic attacks are now several times more powerful, but mana restoring items and natural regeneration only work a fraction as well. Configurable.
 
-https://forums.terraria.org/index.php?threads/powerful-magic-6x-magic-damage-1-6-mana-regen-heal-simple-mod.76709/
+https://forums.terraria.org/index.php?threads/powerful-magic.76709/

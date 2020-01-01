@@ -1,1 +1,1 @@
-Magic attacks are now 4x as powerful, but mana restoring items and natural regeneration only recover 1/6 as much. Configurable.
+Magic attacks are now several times more powerful, but mana restoring items and natural regeneration only work a fraction as well. Configurable.
