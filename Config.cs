@@ -45,6 +45,7 @@ namespace PowerfulMagic {
 		public bool RemoveMerchantLesserPotions { get; set; } = true;
 
 
+		[Label("Remove any Arcane prefix of spawned items; permanent")]
 		[DefaultValue( true )]
 		public bool RemoveItemArcanePrefix { get; set; } = true;
 	}
