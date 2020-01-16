@@ -77,19 +77,24 @@ namespace PowerfulMagic {
 		////////////////
 
 		public override void ModifyWeaponDamage( Item item, ref float directScale, ref float afterScale, ref float flat ) {
-			if( item.magic ) {
-				var mymod = (PowerfulMagicMod)this.mod;
-				var config = mymod.Config;
+			if( !item.magic ) {
+				return;
+			}
+			if( item.type == ItemID.SpaceGun || item.type == ItemID.LaserRifle ) {
+				return;
+			}
 
-				if( config != null ) {
-					int manaSicknessBuffIdx = this.player.FindBuffIndex( BuffID.ManaSickness );
-					int manaSicknessTicks = manaSicknessBuffIdx != -1
-						? this.player.buffTime[ manaSicknessBuffIdx ]
-						: 0;
+			var mymod = (PowerfulMagicMod)this.mod;
+			var config = mymod.Config;
 
-					afterScale *= config.DamageScale;
-					afterScale *= 1f - ((manaSicknessTicks / 300) * config.MaxManaSicknessDamageScale);
-				}
+			if( config != null ) {
+				int manaSicknessBuffIdx = this.player.FindBuffIndex( BuffID.ManaSickness );
+				int manaSicknessTicks = manaSicknessBuffIdx != -1
+					? this.player.buffTime[ manaSicknessBuffIdx ]
+					: 0;
+
+				afterScale *= config.DamageScale;
+				afterScale *= 1f - ((manaSicknessTicks / 300) * config.MaxManaSicknessDamageScale);
 			}
 		}
 
