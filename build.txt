@@ -1,5 +1,6 @@
 author = hamstar
 version = 1.4.1
 displayName = Powerful Magic
+modReferences = HamstarHelpers@5.4.2.1
 buildIgnore = *.csproj, *.user, *.bat, obj\*, bin\*, .vs\*, .git\*
 homepage = https://forums.terraria.org/index.php?threads/powerful-magic.76709/

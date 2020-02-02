@@ -31,9 +31,8 @@ namespace PowerfulMagic {
 			}
 
 			var itemDef = new ItemDefinition( item.type );
-
 			if( config.PerItemDamageScale.ContainsKey(itemDef) ) {
-				return config.PerItemDamageScale[itemDef];
+				return config.PerItemDamageScale[itemDef].Scale;
 			}
 
 			return config.DamageScale;

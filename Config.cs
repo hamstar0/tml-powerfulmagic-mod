@@ -4,9 +4,33 @@ using System.ComponentModel;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader.Config;
+using HamstarHelpers.Classes.UI.ModConfig;
 
 
 namespace PowerfulMagic {
+	class MyFloatInputElement : FloatInputElement { }
+
+
+
+
+	public class ItemMagicScale {
+		[Range( 0f, 100f )]
+		[DefaultValue( 1f )]
+		public float Scale;
+
+
+		////////////////
+
+		public ItemMagicScale() { }
+
+		public ItemMagicScale( float scale ) {
+			this.Scale = scale;
+		}
+	}
+
+
+
+
 	public class PowerfulMagicConfig : ModConfig {
 		public override ConfigScope Mode => ConfigScope.ServerSide;
 
@@ -40,13 +64,13 @@ namespace PowerfulMagic {
 
 		//
 
-		public Dictionary<ItemDefinition, float> PerItemDamageScale { get; set; } = new Dictionary<ItemDefinition, float> {
-			{ new ItemDefinition(ItemID.Vilethorn), 2f },
-			{ new ItemDefinition(ItemID.CrimsonRod), 1.5f },
-			{ new ItemDefinition(ItemID.ClingerStaff), 1.5f },
-			{ new ItemDefinition(ItemID.NimbusRod), 1.5f },
-			{ new ItemDefinition(ItemID.MagnetSphere), 2f },
-			{ new ItemDefinition(ItemID.MagicalHarp), 2f }
+		public Dictionary<ItemDefinition, ItemMagicScale> PerItemDamageScale { get; set; } = new Dictionary<ItemDefinition, ItemMagicScale> {
+			{ new ItemDefinition(ItemID.Vilethorn), new ItemMagicScale(2f) },
+			{ new ItemDefinition(ItemID.CrimsonRod), new ItemMagicScale(1.5f) },
+			{ new ItemDefinition(ItemID.ClingerStaff), new ItemMagicScale(1.5f) },
+			{ new ItemDefinition(ItemID.NimbusRod), new ItemMagicScale(1.5f) },
+			{ new ItemDefinition(ItemID.MagnetSphere), new ItemMagicScale(2f) },
+			{ new ItemDefinition(ItemID.MagicalHarp), new ItemMagicScale(2f) }
 		};
 
 		//
