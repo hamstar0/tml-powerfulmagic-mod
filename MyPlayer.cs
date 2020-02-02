@@ -80,18 +80,6 @@ namespace PowerfulMagic {
 			if( !item.magic ) {
 				return;
 			}
-			if( item.type == ItemID.SpaceGun || item.type == ItemID.LaserRifle ) {
-				if( item.owner != -1 && Main.player[item.owner]?.active == true ) {
-					Player plr = Main.player[item.owner];
-
-					// Laser weapons + meteor armor = no mana = no damage increase
-					if( plr.armor[0].type == ItemID.MeteorHelmet
-						&& plr.armor[1].type == ItemID.MeteoriteChest
-						&& plr.armor[2].type == ItemID.MeteorLeggings ) {
-						return;
-					}
-				}
-			}
 
 			var mymod = (PowerfulMagicMod)this.mod;
 			var config = mymod.Config;
@@ -102,7 +90,7 @@ namespace PowerfulMagic {
 					? this.player.buffTime[ manaSicknessBuffIdx ]
 					: 0;
 
-				afterScale *= config.DamageScale;
+				afterScale *= PowerfulMagicItem.GetItemDamageScale( item );
 				afterScale *= 1f - ((manaSicknessTicks / 300) * config.MaxManaSicknessDamageScale);
 			}
 		}

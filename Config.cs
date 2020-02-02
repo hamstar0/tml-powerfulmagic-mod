@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader.Config;
 
 
@@ -12,6 +14,7 @@ namespace PowerfulMagic {
 		////////////////
 
 		public bool DebugModeInfo { get; set; } = false;
+
 
 		////
 
@@ -35,15 +38,31 @@ namespace PowerfulMagic {
 		[DefaultValue( 180 )]
 		public int ManaSicknessMaximumTicksAllowedToEnableAttacks { get; set; } = 180;
 
+		//
+
+		public Dictionary<ItemDefinition, float> PerItemDamageScale { get; set; } = new Dictionary<ItemDefinition, float> {
+			{ new ItemDefinition(ItemID.Vilethorn), 2f },
+			{ new ItemDefinition(ItemID.CrimsonRod), 1.5f },
+			{ new ItemDefinition(ItemID.ClingerStaff), 1.5f },
+			{ new ItemDefinition(ItemID.NimbusRod), 1.5f },
+			{ new ItemDefinition(ItemID.MagnetSphere), 2f },
+			{ new ItemDefinition(ItemID.MagicalHarp), 2f }
+		};
+
+		//
 
 		[Range( 0f, 20f )]
 		[DefaultValue( 2.5f )]
 		public float WeaponManaConsumeMulitplier { get; set; } = 3f;
 
 
+		//
+
 		[DefaultValue( true )]
 		public bool RemoveMerchantLesserPotions { get; set; } = true;
 
+
+		//
 
 		[Label("Remove any Arcane prefix of spawned items; permanent")]
 		[DefaultValue( true )]

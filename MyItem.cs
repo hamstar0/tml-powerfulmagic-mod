@@ -4,10 +4,44 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
 
 
 namespace PowerfulMagic {
-	class PowerfulMagicItem : GlobalItem {
+	public class PowerfulMagicItem : GlobalItem {
+		public static float GetItemDamageScale( Item item ) {
+			if( !item.magic ) {
+				return 1f;
+			}
+
+			var mymod = PowerfulMagicMod.Instance;
+			var config = mymod.Config;
+
+			if( item.type == ItemID.SpaceGun ) {
+				if( item.owner != -1 && Main.player[item.owner]?.active == true ) {
+					Player plr = Main.player[item.owner];
+
+					// Laser weapons + meteor armor = no mana = no damage increase
+					if( plr.armor[0].type == ItemID.MeteorHelmet
+						&& plr.armor[1].type == ItemID.MeteorSuit
+						&& plr.armor[2].type == ItemID.MeteorLeggings ) {
+						return 1f;
+					}
+				}
+			}
+
+			var itemDef = new ItemDefinition( item.type );
+
+			if( config.PerItemDamageScale.ContainsKey(itemDef) ) {
+				return config.PerItemDamageScale[itemDef];
+			}
+
+			return config.DamageScale;
+		}
+
+
+		////////////////
+
 		internal static void OnManaPickup( Player player, int manaBeforePickup ) {
 			var mymod = PowerfulMagicMod.Instance;
 			var config = mymod.Config;
@@ -19,7 +53,7 @@ namespace PowerfulMagic {
 
 
 		////////////////
-
+		
 		public override void SetDefaults( Item item ) {
 			if( PowerfulMagicMod.Instance.Config.RemoveItemArcanePrefix ) {
 				while( item.prefix == PrefixID.Arcane ) {
@@ -35,17 +69,10 @@ namespace PowerfulMagic {
 			if( !item.magic ) {
 				return;
 			}
-			if( item.type == ItemID.SpaceGun || item.type == ItemID.LaserRifle ) {
-				if( item.owner != -1 && Main.player[item.owner]?.active == true ) {
-					Player plr = Main.player[item.owner];
 
-					// Laser weapons + meteor armor = no mana = no damage increase
-					if( plr.armor[0].type == ItemID.MeteorHelmet
-						&& plr.armor[1].type == ItemID.MeteoriteChest
-						&& plr.armor[2].type == ItemID.MeteorLeggings ) {
-						return;
-					}
-				}
+			float dmgScale = PowerfulMagicItem.GetItemDamageScale( item );
+			if( dmgScale == 1f ) {
+				return;
 			}
 
 			var mymod = (PowerfulMagicMod)this.mod;
@@ -55,7 +82,7 @@ namespace PowerfulMagic {
 			}
 
 			//int newDmg = Main.LocalPlayer.GetWeaponDamage( item );
-			int dmgPercent = (int)(config.DamageScale * 100f);
+			int dmgPercent = (int)(dmgScale * 100f);
 			int manaPercent = (int)(config.WeaponManaConsumeMulitplier * 100f);
 
 			var tip1 = new TooltipLine( this.mod, "PowerfulMagicDmgUpTip", "Magic increased "+dmgPercent+"% of base amount" );
