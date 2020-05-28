@@ -1,5 +1,4 @@
 using System;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -55,7 +54,14 @@ namespace PowerfulMagic {
 
 		////////////////
 
-		internal void RunOscillation() {
+		public override void PostUpdateEverything() {
+			this.RunOscillation();
+		}
+
+
+		////////////////
+
+		private void RunOscillation() {
 			if( this.OscillateDir ) {
 				if( this.Oscillate < 1f ) {
 					this.Oscillate += 1f / 60f;
