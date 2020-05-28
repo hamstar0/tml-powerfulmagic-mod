@@ -18,7 +18,7 @@ namespace PowerfulMagic {
 			}
 
 			var mymod = (PowerfulMagicMod)this.mod;
-			var config = mymod.Config;
+			var config = PowerfulMagicConfig.Instance;
 			if( config == null ) {
 				return;
 			}

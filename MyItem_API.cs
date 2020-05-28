@@ -12,8 +12,7 @@ namespace PowerfulMagic {
 				return 1f;
 			}
 
-			var mymod = PowerfulMagicMod.Instance;
-			var config = mymod.Config;
+			var config = PowerfulMagicConfig.Instance;
 
 			if( item.type == ItemID.SpaceGun ) {
 				if( item.owner != -1 && Main.player[item.owner]?.active == true ) {
@@ -40,8 +39,7 @@ namespace PowerfulMagic {
 		////////////////
 
 		internal static void OnManaPickup( Player player, int manaBeforePickup ) {
-			var mymod = PowerfulMagicMod.Instance;
-			var config = mymod.Config;
+			var config = PowerfulMagicConfig.Instance;
 
 			int newMana = (int)( manaBeforePickup + ( 100f * config.ManaHealScale ) );
 			player.statMana = Math.Min( newMana, player.statManaMax2 );

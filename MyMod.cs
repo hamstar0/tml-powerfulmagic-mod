@@ -11,8 +11,6 @@ namespace PowerfulMagic {
 
 		////////////////
 
-		public PowerfulMagicConfig Config => ModContent.GetInstance<PowerfulMagicConfig>();
-
 		public float Oscillate { get; private set; } = 0f;
 
 

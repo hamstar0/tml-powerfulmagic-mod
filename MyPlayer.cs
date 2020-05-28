@@ -1,11 +1,10 @@
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 
 namespace PowerfulMagic {
-	class PowerfulMagicPlayer : ModPlayer {
+	partial class PowerfulMagicPlayer : ModPlayer {
 		public bool RecentPickup { get; internal set; } = false;
 		public int ManaBeforePickup { get; internal set; } = -1;
 
@@ -22,6 +21,16 @@ namespace PowerfulMagic {
 				this.RecentPickup = false;
 				this.RecentManaStarPickup();
 			}
+
+			if( this.player.whoAmI == Main.myPlayer ) {
+				this.PreUpdateLocal();
+			}
+		}
+
+		private void PreUpdateLocal() {
+			if( Main.mouseRight && this.player.HeldItem?.magic == true ) {
+				this.ApplyFocusMode();
+			}
 		}
 
 
@@ -33,12 +42,7 @@ namespace PowerfulMagic {
 				return base.PreItemCheck();
 			}
 
-			int manaSicknessBuffIdx = this.player.FindBuffIndex( BuffID.ManaSickness );
-			int manaSicknessTicks = manaSicknessBuffIdx != -1
-				? this.player.buffTime[manaSicknessBuffIdx]
-				: 0;
-
-			return manaSicknessTicks < PowerfulMagicMod.Instance.Config.ManaSicknessMaximumTicksAllowedToEnableAttacks;
+			return this.IsMagicItemAllowedForUse();
 		}
 
 
@@ -56,63 +60,7 @@ namespace PowerfulMagic {
 				return;
 			}
 
-			var mymod = (PowerfulMagicMod)this.mod;
-			var config = mymod.Config;
-
-			if( config != null ) {
-				int manaSicknessBuffIdx = this.player.FindBuffIndex( BuffID.ManaSickness );
-				int manaSicknessTicks = manaSicknessBuffIdx != -1
-					? this.player.buffTime[ manaSicknessBuffIdx ]
-					: 0;
-
-				afterScale *= PowerfulMagicItem.GetItemDamageScale( item );
-				afterScale *= 1f - ((manaSicknessTicks / 300) * config.MaxManaSicknessDamageScale);
-			}
-		}
-
-
-		////////////////
-
-		public void UpdateManaRegen() { //UpdateLifeRegen
-			var mymod = (PowerfulMagicMod)this.mod;
-			var config = mymod.Config;
-
-			this.player.nebulaManaCounter -= this.player.nebulaLevelMana / 2;
-
-			if( this.player.manaRegenCount > 0 ) {
-				float mul = config?.ManaRegenScale ?? 1f;
-				mul = 1f - mul;
-
-				if( PowerfulMagicMod.Instance.Config.DebugModeInfo ) {
-					//DebugHelpers.Print( "manaregen", "Old mana regen amount: "+this.player.manaRegenCount );
-				}
-
-				this.player.manaRegenCount -= (int)( (float)this.player.manaRegen * mul );
-			}
-		}
-
-
-		////////////////
-
-		private void RecentManaStarPickup() {
-			PowerfulMagicItem.OnManaPickup( this.player, this.ManaBeforePickup );
-
-			for( int idx = 0; idx < Main.combatText.Length; idx++ ) {
-				CombatText txt = Main.combatText[idx];
-				if( txt == null || !txt.active ) {
-					continue;
-				}
-				if( !txt.text.Equals("100") ) {
-					continue;
-				}
-
-				if( PowerfulMagicMod.Instance.Config.DebugModeInfo ) {
-					Main.NewText( "Old mana heal? amount from recent pickup: 100" );
-				}
-
-				txt.text = (int)( (float)100 * PowerfulMagicConfig.Instance.ManaHealScale ) + "";
-				break;
-			}
+			this.ModifyMagicWeaponDamage( item, ref afterScale );
 		}
 	}
 }
