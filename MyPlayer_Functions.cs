@@ -17,13 +17,6 @@ namespace PowerfulMagic {
 
 
 		////////////////
-		
-		private void ApplyFocusMode() {
-
-		}
-
-
-		////////////////
 
 		private void ModifyMagicWeaponDamage( Item item, ref float afterScale ) {
 			int manaSicknessBuffIdx = this.player.FindBuffIndex( BuffID.ManaSickness );

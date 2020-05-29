@@ -5,10 +5,14 @@ using Terraria.ModLoader;
 
 namespace PowerfulMagic {
 	partial class PowerfulMagicPlayer : ModPlayer {
+		public bool IsFocusing { get; private set; } = false;
+
 		public bool RecentPickup { get; internal set; } = false;
+
 		public int ManaBeforePickup { get; internal set; } = -1;
 
-		////
+
+		////////////////
 
 		public override bool CloneNewInstances => false;
 
@@ -29,7 +33,9 @@ namespace PowerfulMagic {
 
 		private void PreUpdateLocal() {
 			if( Main.mouseRight && this.player.HeldItem?.magic == true ) {
-				this.ApplyFocusMode();
+				this.IsFocusing = true;
+			} else {
+				this.IsFocusing = false;
 			}
 		}
 
