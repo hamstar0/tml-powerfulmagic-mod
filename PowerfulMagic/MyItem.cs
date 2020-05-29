@@ -6,11 +6,24 @@ using Terraria.ModLoader;
 
 namespace PowerfulMagic {
 	public partial class PowerfulMagicItem : GlobalItem {
-		public bool IsFocusing { get; private set; } = false;
-
 		private int OldHoldStyle = 0;
 
 
+		////////////////
+
+		public bool IsFocusing { get; private set; } = false;
+
+		////
+
+		public override bool InstancePerEntity => true;
+
+
+
+		////////////////
+
+		public override GlobalItem NewInstance( Item item ) {
+			return base.NewInstance( item );
+		}
 
 		////////////////
 
