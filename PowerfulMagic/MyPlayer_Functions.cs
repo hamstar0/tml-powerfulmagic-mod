@@ -93,5 +93,19 @@ namespace PowerfulMagic {
 				break;
 			}
 		}
+
+
+		private void ApplyFocusMovementEffects() {
+			var config = PowerfulMagicConfig.Instance;
+
+			this.player.maxRunSpeed *= config.FocusMoveSpeedScale;
+			this.player.accRunSpeed = this.player.maxRunSpeed;
+			this.player.moveSpeed *= config.FocusMoveSpeedScale;
+
+			int maxJump = (int)( (float)Player.jumpHeight * config.FocusJumpScale );
+			if( this.player.jump > maxJump ) {
+				this.player.jump = maxJump;
+			}
+		}
 	}
 }

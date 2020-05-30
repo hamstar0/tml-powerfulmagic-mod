@@ -58,6 +58,15 @@ namespace PowerfulMagic {
 
 		////////////////
 
+		public override void PreUpdateMovement() {
+			if( this.FocusPercent > 0f ) {
+				this.ApplyFocusMovementEffects();
+			}
+		}
+
+
+		////////////////
+
 		public override void ModifyWeaponDamage( Item item, ref float directScale, ref float afterScale, ref float flat ) {
 			if( !item.magic ) {
 				return;

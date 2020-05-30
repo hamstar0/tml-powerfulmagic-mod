@@ -114,6 +114,16 @@ namespace PowerfulMagic {
 		[CustomModConfigItem( typeof(MyFloatInputElement) )]
 		public float FocusManaChargeMaxRatePerSecond { get; set; } = 2.5f;
 
+		[Range( 0f, 10f )]
+		[DefaultValue( 0.25f )] // 25% speed
+		[CustomModConfigItem( typeof(MyFloatInputElement) )]
+		public float FocusMoveSpeedScale { get; set; } = 0.25f;
+
+		[Range( 0f, 10f )]
+		[DefaultValue( 0.25f )] // 25% height
+		[CustomModConfigItem( typeof(MyFloatInputElement) )]
+		public float FocusJumpScale { get; set; } = 0.25f;
+
 
 
 		////////////////
