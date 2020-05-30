@@ -104,14 +104,15 @@ namespace PowerfulMagic {
 
 		[Label( "Focus percent increase per tick while focusing" )]
 		[Range( 0f, 1f )]
-		[DefaultValue( 1f / (60f * 3f) )]	// 3 seconds until max
+		[DefaultValue( 1f / (60f * 5f) )]	// 5 seconds until max
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
-		public float FocusPercentChargeRatePerTick { get; set; } = 1f / (60f * 3f);
+		public float FocusPercentChargeRatePerTick { get; set; } = 1f / (60f * 5f);
 
 		[Label( "Max focus mana charge amount per quarter second" )]
-		[Range( 0, 200 )]
-		[DefaultValue( 5 )] // 10 seconds until full
-		public int FocusManaChargeMaxRatePerSecond { get; set; } = 5;
+		[Range( 0f, 200f )]
+		[DefaultValue( 2.5f )] // 10 mana per second
+		[CustomModConfigItem( typeof(MyFloatInputElement) )]
+		public float FocusManaChargeMaxRatePerSecond { get; set; } = 2.5f;
 
 
 

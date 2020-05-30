@@ -40,20 +40,7 @@ namespace PowerfulMagic {
 		////////////////
 
 		public override void HoldStyle( Item item, Player player ) {
-			var myplayer = player.GetModPlayer<PowerfulMagicPlayer>();
-			if( myplayer.FocusPercent > 0f ) {
-				if( !this.IsFocusing ) {
-					this.IsFocusing = true;
-					this.OldHoldStyle = item.holdStyle;
-
-					item.holdStyle = ItemHoldStyleID.HoldingOut;
-				}
-			} else {
-				if( this.IsFocusing ) {
-					this.IsFocusing = false;
-					item.holdStyle = this.OldHoldStyle;
-				}
-			}
+			this.UpdateFocusHoldStyle( item, player );
 		}
 
 

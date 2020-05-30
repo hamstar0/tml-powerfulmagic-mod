@@ -46,7 +46,7 @@ namespace PowerfulMagic {
 			}
 		}
 
-		////
+		////////////////
 
 		private void UpdateFocusManaRegen() {
 			var config = PowerfulMagicConfig.Instance;
@@ -60,8 +60,13 @@ namespace PowerfulMagic {
 				this.FocusPercent = 0f;
 			}
 			
-			if( (Main.GameUpdateCount % 15) == 0 && this.FocusPercent > 0f ) {
-				this.player.statMana += (int)(this.FocusPercent * (float)config.FocusManaChargeMaxRatePerSecond);
+			if( this.FocusPercent > 0f && (Main.GameUpdateCount % 15) == 0 ) {
+				int amt = (int)( this.FocusPercent * config.FocusManaChargeMaxRatePerSecond );
+
+				if( amt > 0 ) {
+					this.player.statMana += amt;
+					CombatText.NewText( this.player.getRect(), CombatText.HealMana, amt );
+				}
 			}
 		}
 

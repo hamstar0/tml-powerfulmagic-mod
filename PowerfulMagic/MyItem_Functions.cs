@@ -1,5 +1,7 @@
 using System;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 
@@ -37,6 +39,32 @@ namespace PowerfulMagic {
 			var myplayer = player.GetModPlayer<PowerfulMagicPlayer>();
 			myplayer.RecentPickup = true;
 			myplayer.ManaBeforePickup = player.statMana;
+		}
+
+
+		////////////////
+
+		private void UpdateFocusHoldStyle( Item item, Player player ) {
+			var myplayer = player.GetModPlayer<PowerfulMagicPlayer>();
+			if( myplayer.FocusPercent > 0f ) {
+				if( !this.IsFocusing ) {
+					this.IsFocusing = true;
+					this.OldHoldStyle = item.holdStyle;
+
+					item.holdStyle = ItemHoldStyleID.HoldingOut;
+				}
+			} else {
+				if( this.IsFocusing ) {
+					this.IsFocusing = false;
+
+					item.holdStyle = this.OldHoldStyle;
+				}
+			}
+
+			if( this.IsFocusing ) {
+				Vector2 heldOffset = player.itemLocation - player.MountedCenter;
+				player.itemLocation -= heldOffset * 0.75f;
+			}
 		}
 	}
 }

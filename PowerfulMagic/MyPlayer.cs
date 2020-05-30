@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -37,7 +38,7 @@ namespace PowerfulMagic {
 
 
 		////////////////
-
+		
 		public override bool PreItemCheck() {
 			Item heldItem = this.player.HeldItem;
 			if( heldItem == null || heldItem.IsAir || !heldItem.magic ) {
@@ -63,6 +64,15 @@ namespace PowerfulMagic {
 			}
 
 			this.ModifyMagicWeaponDamage( item, ref afterScale );
+		}
+
+		////
+
+		public override bool Shoot( Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack ) {
+			if( item.magic ) {
+				this.FocusPercent = 0f;
+			}
+			return base.Shoot( item, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack );
 		}
 	}
 }
