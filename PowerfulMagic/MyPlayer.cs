@@ -58,7 +58,7 @@ namespace PowerfulMagic {
 
 		////////////////
 
-		public override void PreUpdateMovement() {
+		public override void PostUpdateRunSpeeds() {
 			if( this.FocusPercent > 0f ) {
 				this.ApplyFocusMovementEffects();
 			}
