@@ -94,10 +94,24 @@ namespace PowerfulMagic {
 
 
 		//
-
+		
 		[Label("Remove any Arcane prefix of spawned items; permanent")]
 		[DefaultValue( true )]
 		public bool RemoveItemArcanePrefix { get; set; } = true;
+
+
+		//
+
+		[Label( "Focus percent increase per tick while focusing" )]
+		[Range( 0f, 1f )]
+		[DefaultValue( 1f / (60f * 3f) )]	// 3 seconds until max
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float FocusPercentChargeRatePerTick { get; set; } = 1f / (60f * 3f);
+
+		[Label( "Max focus mana charge amount per quarter second" )]
+		[Range( 0, 200 )]
+		[DefaultValue( 5 )] // 10 seconds until full
+		public int FocusManaChargeMaxRatePerSecond { get; set; } = 5;
 
 
 

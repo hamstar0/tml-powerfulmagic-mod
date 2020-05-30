@@ -15,11 +15,14 @@
     <None Remove=".gitignore" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="HamstarHelpers">
-      <HintPath>..\..\Mod Helpers\v5 (tML11)\HamstarHelpers\bin\Release\net452\HamstarHelpers.dll</HintPath>
+      <HintPath>..\..\..\Mod Helpers\v5 (tML11)\HamstarHelpers\bin\Release\net452\HamstarHelpers.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
+    <Folder Include="NetProtocols\" />
   </ItemGroup>
 </Project>

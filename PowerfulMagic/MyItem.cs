@@ -13,6 +13,7 @@ namespace PowerfulMagic {
 
 		public bool IsFocusing { get; private set; } = false;
 
+
 		////
 
 		public override bool InstancePerEntity => true;
@@ -25,7 +26,7 @@ namespace PowerfulMagic {
 			return base.NewInstance( item );
 		}
 
-		////////////////
+		////
 
 		public override void SetDefaults( Item item ) {
 			if( PowerfulMagicConfig.Instance.RemoveItemArcanePrefix ) {
@@ -40,12 +41,12 @@ namespace PowerfulMagic {
 
 		public override void HoldStyle( Item item, Player player ) {
 			var myplayer = player.GetModPlayer<PowerfulMagicPlayer>();
-			if( myplayer.IsFocusing ) {
+			if( myplayer.FocusPercent > 0f ) {
 				if( !this.IsFocusing ) {
 					this.IsFocusing = true;
 					this.OldHoldStyle = item.holdStyle;
 
-					item.holdStyle = 5;
+					item.holdStyle = ItemHoldStyleID.HoldingOut;
 				}
 			} else {
 				if( this.IsFocusing ) {

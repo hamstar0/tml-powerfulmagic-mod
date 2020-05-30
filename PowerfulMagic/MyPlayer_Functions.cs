@@ -46,6 +46,25 @@ namespace PowerfulMagic {
 			}
 		}
 
+		////
+
+		private void UpdateFocusManaRegen() {
+			var config = PowerfulMagicConfig.Instance;
+
+			if( Main.mouseRight && this.player.HeldItem?.magic == true ) {
+				this.FocusPercent += config.FocusPercentChargeRatePerTick;
+				if( this.FocusPercent > 1f ) {
+					this.FocusPercent = 1f;
+				}
+			} else {
+				this.FocusPercent = 0f;
+			}
+			
+			if( (Main.GameUpdateCount % 15) == 0 && this.FocusPercent > 0f ) {
+				this.player.statMana += (int)(this.FocusPercent * (float)config.FocusManaChargeMaxRatePerSecond);
+			}
+		}
+
 
 		////////////////
 

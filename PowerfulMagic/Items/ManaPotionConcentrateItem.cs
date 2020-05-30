@@ -15,7 +15,7 @@ namespace PowerfulMagic.Items {
             this.item.height = 20;
             this.item.maxStack = 99;
             this.item.material = true;
-            this.item.rare = 3;
+            this.item.rare = ItemRarityID.Orange;
             this.item.value = Item.buyPrice( gold: 1 );
         }
 
