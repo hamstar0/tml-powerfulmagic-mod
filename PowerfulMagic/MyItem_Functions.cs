@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using HamstarHelpers.Classes.CameraAnimation;
-
+using HamstarHelpers.Helpers.Players;
 
 namespace PowerfulMagic {
 	public partial class PowerfulMagicItem : GlobalItem {
@@ -71,7 +71,11 @@ namespace PowerfulMagic {
 
 		////////////////
 
-		private void ApplyPlayerSpellFx( Item item, int damage ) {
+		private void ApplyPlayerSpellFx( int damage ) {
+			if( !PlayerMovementHelpers.IsOnFloor( Main.LocalPlayer ) ) {
+				return;
+			}
+
 			float shakePower = (float)damage / 30f;
 			float magnitude = MathHelper.Clamp( shakePower, 1f, 15f ) * 0.5f;
 
@@ -90,7 +94,7 @@ namespace PowerfulMagic {
 				peakMagnitude: magnitude,
 				toDuration: 0,
 				lingerDuration: 1,
-				froDuration: 15 + (int)( (magnitude - 1f) * 15f ),
+				froDuration: 10 + (int)( (magnitude - 0.5f) * 10f ),
 				isSmoothed: false
 			);
 		}

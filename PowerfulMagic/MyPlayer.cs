@@ -2,7 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using HamstarHelpers.Classes.CameraAnimation;
+using HamstarHelpers.Services.Timers;
 
 
 namespace PowerfulMagic {
@@ -46,7 +46,17 @@ namespace PowerfulMagic {
 				return base.PreItemCheck();
 			}
 
-			return this.IsMagicItemAllowedForUse();
+			if( !this.IsMagicItemAllowedForUse() ) {
+				if( this.player.controlUseItem ) {
+					if( Timers.GetTimerTickDuration( "PowerfulMagicManaSicknessAlert" ) == 0 ) {
+						Main.NewText( "Too much mana sickness.", Color.Yellow );
+					}
+					Timers.SetTimer( "PowerfulMagicManaSicknessAlert", 60 * 5, true, () => false );
+				}
+
+				return false;
+			}
+			return true;
 		}
 
 

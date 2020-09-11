@@ -50,10 +50,17 @@ namespace PowerfulMagic {
 		public override void ModifyManaCost( Item item, Player player, ref float reduce, ref float mult ) {
 			reduce *= PowerfulMagicConfig.Instance.WeaponManaConsumeMulitplier;
 
-			if( (int)((float)item.mana * reduce * mult) <= player.statMana ) {
-				int damage = (int)( (float)item.damage * PowerfulMagicItem.GetItemDamageScale(item, 0) );
+			if( player.controlUseItem && player.whoAmI == Main.myPlayer ) {
+				int manaUse = (int)( (float)item.mana * reduce * mult );
+				if( manaUse > 0 && manaUse <= player.statMana ) {
+					int buffIdx = player.FindBuffIndex( BuffID.ManaSickness );
+					int manaSicknessDuration = buffIdx < 0 ? 0 : player.buffTime[buffIdx];
 
-				this.ApplyPlayerSpellFx( item, damage );
+					float dmgScale = PowerfulMagicItem.GetItemDamageScale( item, manaSicknessDuration );
+					int damage = (int)( (float)item.damage * dmgScale );
+
+					this.ApplyPlayerSpellFx( damage );
+				}
 			}
 		}
 

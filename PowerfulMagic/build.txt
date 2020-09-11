@@ -1,5 +1,5 @@
 author = hamstar
-version = 1.5.1
+version = 1.5.2
 displayName = Powerful Magic
 modReferences = HamstarHelpers@5.9.2
 buildIgnore = *.csproj, *.user, *.bat, obj\*, bin\*, .vs\*, .git\*
