@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using HamstarHelpers.Classes.CameraAnimation;
 
 
 namespace PowerfulMagic {
@@ -65,6 +66,33 @@ namespace PowerfulMagic {
 				Vector2 heldOffset = player.itemLocation - player.MountedCenter;
 				player.itemLocation -= heldOffset * 0.75f;
 			}
+		}
+
+
+		////////////////
+
+		private void ApplyPlayerSpellFx( Item item, int damage ) {
+			float shakePower = (float)damage / 30f;
+			float magnitude = MathHelper.Clamp( shakePower, 1f, 15f ) * 0.5f;
+
+			var curr = CameraShaker.Current;
+			if( curr != null ) {
+				float percent = (float)curr.TicksElapsed / (float)curr.TotalTickDuration;
+				percent = 1f - percent;
+
+				if( (percent * curr.ShakePeakMagnitude) > magnitude ) {
+					return;
+				}
+			}
+
+			CameraShaker.Current = new CameraShaker(
+				name: "PowerfulMagicFx",
+				peakMagnitude: magnitude,
+				toDuration: 0,
+				lingerDuration: 1,
+				froDuration: 15 + (int)( (magnitude - 1f) * 15f ),
+				isSmoothed: false
+			);
 		}
 	}
 }

@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using HamstarHelpers.Classes.CameraAnimation;
 
 
 namespace PowerfulMagic {
@@ -81,6 +82,7 @@ namespace PowerfulMagic {
 			if( item.magic ) {
 				this.FocusPercent = 0f;
 			}
+
 			return base.Shoot( item, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack );
 		}
 	}

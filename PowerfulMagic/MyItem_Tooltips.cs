@@ -12,7 +12,7 @@ namespace PowerfulMagic {
 				return;
 			}
 
-			float dmgScale = PowerfulMagicItem.GetItemDamageScale( item );
+			float dmgScale = PowerfulMagicItem.GetItemDamageScale( item, 0 );
 			if( dmgScale == 1f ) {
 				return;
 			}

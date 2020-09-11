@@ -2,6 +2,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using HamstarHelpers.Helpers.Debug;
 
 
 namespace PowerfulMagic {
@@ -48,6 +49,12 @@ namespace PowerfulMagic {
 
 		public override void ModifyManaCost( Item item, Player player, ref float reduce, ref float mult ) {
 			reduce *= PowerfulMagicConfig.Instance.WeaponManaConsumeMulitplier;
+
+			if( (int)((float)item.mana * reduce * mult) <= player.statMana ) {
+				int damage = (int)( (float)item.damage * PowerfulMagicItem.GetItemDamageScale(item, 0) );
+
+				this.ApplyPlayerSpellFx( item, damage );
+			}
 		}
 
 

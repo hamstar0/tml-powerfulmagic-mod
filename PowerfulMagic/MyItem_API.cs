@@ -7,12 +7,18 @@ using Terraria.ModLoader.Config;
 
 namespace PowerfulMagic {
 	public partial class PowerfulMagicItem : GlobalItem {
-		public static float GetItemDamageScale( Item item ) {
+		public static float GetItemDamageScale( Item item, int manaSicknessTicks ) {
 			if( !item.magic ) {
 				return 1f;
 			}
 
 			var config = PowerfulMagicConfig.Instance;
+
+			float scale = ((float)manaSicknessTicks / 300f) * config.MaxManaSicknessDamageScale;
+			scale = 1f - scale;
+			if( scale <= 0.25f ) {
+				return 0.25f;
+			}
 
 			if( item.type == ItemID.SpaceGun ) {
 				if( item.owner != -1 && Main.player[item.owner]?.active == true ) {
@@ -22,17 +28,17 @@ namespace PowerfulMagic {
 					if( plr.armor[0].type == ItemID.MeteorHelmet
 						&& plr.armor[1].type == ItemID.MeteorSuit
 						&& plr.armor[2].type == ItemID.MeteorLeggings ) {
-						return 1f;
+						return scale;
 					}
 				}
 			}
 
 			var itemDef = new ItemDefinition( item.type );
 			if( config.PerItemDamageScale.ContainsKey(itemDef) ) {
-				return config.PerItemDamageScale[itemDef].Scale;
+				return config.PerItemDamageScale[itemDef].Scale * scale;
 			}
 
-			return config.BaseDamageScale;
+			return config.BaseDamageScale * scale;
 		}
 
 
