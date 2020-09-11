@@ -63,9 +63,9 @@ namespace PowerfulMagic {
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
 		public float MaxManaSicknessDamageScale { get; set; } = 1f / 3f;
 
-		[Range( 1, 301 )]
-		[DefaultValue( (60 * 4) + 1 )]
-		public int ManaSicknessMaximumTicksAllowedToEnableAttacks { get; set; } = (60 * 4) + 1;
+		[Range( 1, 601 )]
+		[DefaultValue( (60 * 5) + 1 )]
+		public int ManaSicknessMaximumTicksAllowedToEnableAttacks { get; set; } = (60 * 5) + 1;
 
 		//
 
