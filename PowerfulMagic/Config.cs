@@ -64,8 +64,8 @@ namespace PowerfulMagic {
 		public float MaxManaSicknessDamageScale { get; set; } = 1f / 3f;
 
 		[Range( 1, 601 )]
-		[DefaultValue( (60 * 5) + 1 )]
-		public int ManaSicknessMaximumTicksAllowedToEnableAttacks { get; set; } = (60 * 5) + 1;
+		[DefaultValue( (int)(60f * 5.5f) + 1 )]
+		public int ManaSicknessMaximumTicksAllowedToEnableAttacks { get; set; } = (int)(60f * 5.5f) + 1;
 
 		//
 
