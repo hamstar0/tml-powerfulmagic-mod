@@ -25,7 +25,7 @@ namespace PowerfulMagic {
 
 			//int newDmg = Main.LocalPlayer.GetWeaponDamage( item );
 			int dmgPercent = (int)(dmgScale * 100f);
-			int manaPercent = (int)(config.WeaponManaConsumeMulitplier * 100f);
+			int manaPercent = (int)(config.Get<float>( nameof(PowerfulMagicConfig.WeaponManaConsumeMulitplier) ) * 100f);
 
 			var tip1 = new TooltipLine( this.mod, "PowerfulMagicDmgUpTip", "Magic increased "+dmgPercent+"% of base amount" );
 			tip1.overrideColor = Color.Lerp( Color.Black, Color.Lime, 0.8f + (0.2f * mymod.Oscillate) );

@@ -24,7 +24,7 @@ namespace PowerfulMagic {
 
 
 
-	public class PowerfulMagicConfig : ModConfig {
+	public partial class PowerfulMagicConfig : ModConfig {
 		public static PowerfulMagicConfig Instance => ModContent.GetInstance<PowerfulMagicConfig>();
 
 

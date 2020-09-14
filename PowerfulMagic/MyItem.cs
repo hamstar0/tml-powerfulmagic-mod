@@ -30,7 +30,7 @@ namespace PowerfulMagic {
 		////
 
 		public override void SetDefaults( Item item ) {
-			if( PowerfulMagicConfig.Instance.RemoveItemArcanePrefix ) {
+			if( PowerfulMagicConfig.Instance.Get<bool>( nameof(PowerfulMagicConfig.RemoveItemArcanePrefix) ) ) {
 				while( item.prefix == PrefixID.Arcane ) {//?
 					item.Prefix( -1 );
 				}
@@ -48,7 +48,7 @@ namespace PowerfulMagic {
 		////////////////
 
 		public override void ModifyManaCost( Item item, Player player, ref float reduce, ref float mult ) {
-			reduce *= PowerfulMagicConfig.Instance.WeaponManaConsumeMulitplier;
+			reduce *= PowerfulMagicConfig.Instance.Get<float>( nameof(PowerfulMagicConfig.WeaponManaConsumeMulitplier) );
 
 			if( player.controlUseItem && player.whoAmI == Main.myPlayer ) {
 				int manaUse = (int)( (float)item.mana * reduce * mult );
@@ -74,7 +74,7 @@ namespace PowerfulMagic {
 				Main.NewText("Old mana heal value for "+item.Name+": "+healValue);
 			}
 
-			healValue = (int)((float)healValue * config.ManaHealScale);
+			healValue = (int)( (float)healValue * config.Get<float>(nameof(PowerfulMagicConfig.ManaHealScale)) );
 		}
 
 		//public override bool ConsumeItem( Item item, Player player ) {

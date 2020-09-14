@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 using HamstarHelpers.Classes.CameraAnimation;
 using HamstarHelpers.Helpers.Players;
 
+
 namespace PowerfulMagic {
 	public partial class PowerfulMagicItem : GlobalItem {
 		private void OnConsumeManaMessage( Item item ) {
@@ -23,8 +24,9 @@ namespace PowerfulMagic {
 					if( config.DebugModeInfo ) {
 						Main.NewText( "Old mana heal amount on consume of " + item.Name + ": " + item.healMana );
 					}
-
-					txt.text = (int)((float)item.healMana * config.ManaHealScale) + "";
+					
+					float manaHealScale = config.Get<float>( nameof(PowerfulMagicConfig.ManaHealScale) );
+					txt.text = (int)((float)item.healMana * manaHealScale) + "";
 					break;
 				}
 			}

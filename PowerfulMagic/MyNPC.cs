@@ -32,7 +32,7 @@ namespace PowerfulMagic {
 
 		public override void SetupShop( int type, Chest shop, ref int nextSlot ) {
 			if( type == NPCID.Merchant ) {
-				if( PowerfulMagicConfig.Instance.RemoveMerchantLesserPotions ) {
+				if( PowerfulMagicConfig.Instance.Get<bool>( nameof(PowerfulMagicConfig.RemoveMerchantLesserPotions) ) ) {
 					PowerfulMagicNPC.FilterShop( shop.item, new HashSet<int> { ItemID.LesserManaPotion }, ref nextSlot );
 				}
 			} else if( type == NPCID.Wizard ) {
