@@ -23,7 +23,7 @@ namespace PowerfulMagic {
 				return;
 			}
 
-			string modName = "[c / FFFF88:" + PowerfulMagicMod.Instance.DisplayName + "] - ";
+			string modName = "[c/FFFF88:" + PowerfulMagicMod.Instance.DisplayName + "] - ";
 			//int newDmg = Main.LocalPlayer.GetWeaponDamage( item );
 			int dmgPercent = (int)(dmgScale * 100f);
 			int manaPercent = (int)(config.Get<float>( nameof(PowerfulMagicConfig.WeaponManaConsumeMulitplier) ) * 100f);
