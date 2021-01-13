@@ -66,7 +66,7 @@ namespace PowerfulMagic {
 				this.FocusPercent = 0f;
 			}
 			
-			if( this.FocusPercent > 0f && (Main.GameUpdateCount % 15) == 0 ) {
+			if( this.FocusPercent > 0f && (Main.GameUpdateCount % 60) == 0 ) {
 				float focusChargeRate = config.Get<float>( nameof(PowerfulMagicConfig.FocusManaChargeMaxRatePerSecond) );
 				int amt = (int)( this.FocusPercent * focusChargeRate );
 

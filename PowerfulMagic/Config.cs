@@ -69,6 +69,13 @@ namespace PowerfulMagic {
 
 		//
 
+		[Range( 0f, 1f )]
+		[DefaultValue( 0.15f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float ManaStarDropChancePercentOfVanilla { get; set; } = 0.15f;
+
+		//
+
 		public Dictionary<ItemDefinition, ItemMagicScale> PerItemDamageScale { get; set; } = new Dictionary<ItemDefinition, ItemMagicScale> {
 			{ new ItemDefinition(ItemID.Vilethorn), new ItemMagicScale{ Scale = 2f } },
 			{ new ItemDefinition(ItemID.CrimsonRod), new ItemMagicScale{ Scale = 1.5f } },
@@ -108,21 +115,31 @@ namespace PowerfulMagic {
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
 		public float FocusPercentChargeRatePerTick { get; set; } = 1f / (60f * 5f);
 
-		[Label( "Max focus mana charge amount per quarter second" )]
+		[Label( "Max focus mana charge amount per second" )]
 		[Range( 0f, 200f )]
-		[DefaultValue( 2.5f )] // 10 mana per second
+		[DefaultValue( 5f )] // 5 mana per second
 		[CustomModConfigItem( typeof(MyFloatInputElement) )]
-		public float FocusManaChargeMaxRatePerSecond { get; set; } = 2.5f;
+		public float FocusManaChargeMaxRatePerSecond { get; set; } = 5f;
 
+		[Label( "Movement speed percent while in focus mode" )]
 		[Range( 0f, 10f )]
 		[DefaultValue( 0.25f )] // 25% speed
 		[CustomModConfigItem( typeof(MyFloatInputElement) )]
 		public float FocusMoveSpeedScale { get; set; } = 0.25f;
 
+		[Label( "Movement jump height percent while in focus mode" )]
 		[Range( 0f, 10f )]
 		[DefaultValue( 0.25f )] // 25% height
 		[CustomModConfigItem( typeof(MyFloatInputElement) )]
 		public float FocusJumpScale { get; set; } = 0.25f;
+		
+		[Label("Set focus mode to interrupt on movement")]
+		[DefaultValue( true )]
+		public bool FocusInterruptsOnMove { get; set; } = true;
+
+		[Label( "Set focus mode to interrupt when hurt" )]
+		[DefaultValue( true )]
+		public bool FocusInterruptsOnHurt { get; set; } = true;
 
 
 

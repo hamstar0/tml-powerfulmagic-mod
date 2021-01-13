@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -30,11 +29,11 @@ namespace PowerfulMagic {
 
 			string tip1Text = modName + "Magic increased " + dmgPercent + "% of base amount";
 			var tip1 = new TooltipLine( this.mod, "PowerfulMagicDmgUpTip", tip1Text );
-			tip1.overrideColor = Color.Lerp( Color.Black, Color.Lime, 0.8f + (0.2f * mymod.Oscillate) );
+			//tip1.overrideColor = Color.Lerp( Color.Black, Color.Lime, 0.8f + (0.2f * mymod.Oscillate) );
 
 			string tip2Text = modName + "Mana use increased " + manaPercent + "% of base amount";
 			var tip2 = new TooltipLine( this.mod, "PowerfulMagicManaUpTip", tip2Text );
-			tip2.overrideColor = Color.Lerp( Color.Black, Color.Lime, 0.8f + (0.2f * mymod.Oscillate) );
+			//tip2.overrideColor = Color.Lerp( Color.Black, Color.Lime, 0.8f + (0.2f * mymod.Oscillate) );
 
 			tooltips.Insert( 1, tip1 );
 			tooltips.Insert( 2, tip2 );

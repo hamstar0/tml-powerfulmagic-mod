@@ -23,18 +23,44 @@ namespace PowerfulMagic {
 
 		////////////////
 
-		public override GlobalItem NewInstance( Item item ) {
-			return base.NewInstance( item );
+		public override void SetDefaults( Item item ) {
+			if( !this.SetDefaultsForManaPickup(item) ) {
+				this.SetDefaultsForPrefix( item );
+			}
 		}
 
 		////
 
-		public override void SetDefaults( Item item ) {
-			if( PowerfulMagicConfig.Instance.Get<bool>( nameof(PowerfulMagicConfig.RemoveItemArcanePrefix) ) ) {
+		private void SetDefaultsForPrefix( Item item ) {
+			var config = PowerfulMagicConfig.Instance;
+
+			if( config.Get<bool>( nameof( config.RemoveItemArcanePrefix ) ) ) {
 				while( item.prefix == PrefixID.Arcane ) {//?
 					item.Prefix( -1 );
 				}
 			}
+		}
+
+		private bool SetDefaultsForManaPickup( Item item ) {
+			if( item.type != ItemID.Star && item.type != ItemID.SoulCake && item.type != ItemID.SugarPlum ) {
+				return true;
+			}
+			if( Main.netMode == NetmodeID.MultiplayerClient ) {
+				return true;
+			}
+			if( Main.item[item.whoAmI] == item ) {
+				return true;
+			}
+
+			var config = PowerfulMagicConfig.Instance;
+
+			float manaStarDropPerc = config.Get<float>( nameof( config.ManaStarDropChancePercentOfVanilla ) );
+			bool iAmDestroy = manaStarDropPerc <= Main.rand.NextFloat();
+
+			if( iAmDestroy ) {
+				item.TurnToAir();
+			}
+			return !iAmDestroy;
 		}
 
 

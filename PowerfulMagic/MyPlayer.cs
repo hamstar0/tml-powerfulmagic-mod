@@ -73,6 +73,27 @@ namespace PowerfulMagic {
 			if( this.FocusPercent > 0f ) {
 				this.ApplyFocusMovementEffects();
 			}
+
+			if( this.player.velocity.Y != 0 ) {
+				var config = PowerfulMagicConfig.Instance;
+
+				if( config.Get<bool>( nameof(config.FocusInterruptsOnMove) ) ) {
+					this.FocusPercent = 0f;
+				}
+			}
+		}
+		
+
+		////////////////
+
+		public override void PostHurt( bool pvp, bool quiet, double damage, int hitDirection, bool crit ) {
+			if( !quiet ) {
+				var config = PowerfulMagicConfig.Instance;
+				
+				if( config.Get<bool>( nameof(config.FocusInterruptsOnHurt) ) ) {
+					this.FocusPercent = 0f;
+				}
+			}
 		}
 
 
