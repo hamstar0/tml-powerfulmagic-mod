@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -48,19 +49,19 @@ namespace PowerfulMagic {
 			if( Main.netMode == NetmodeID.MultiplayerClient ) {
 				return true;
 			}
-			if( Main.item[item.whoAmI] == item ) {
+			if( Main.item.Any(i => i == item) ) {
 				return true;
 			}
 
 			var config = PowerfulMagicConfig.Instance;
 
 			float manaStarDropPerc = config.Get<float>( nameof( config.ManaStarDropChancePercentOfVanilla ) );
-			bool iAmDestroy = manaStarDropPerc <= Main.rand.NextFloat();
+			bool iAmAir = manaStarDropPerc <= Main.rand.NextFloat();
 
-			if( iAmDestroy ) {
+			if( iAmAir ) {
 				item.TurnToAir();
 			}
-			return !iAmDestroy;
+			return !iAmAir;
 		}
 
 
