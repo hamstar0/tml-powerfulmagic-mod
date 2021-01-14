@@ -26,6 +26,14 @@ namespace PowerfulMagic {
 
 		////////////////
 
+		public override GlobalItem Clone( Item item, Item itemClone ) {
+			var myitem = (PowerfulMagicItem)base.Clone( item, itemClone );
+			myitem.OldHoldStyle = this.OldHoldStyle;
+			myitem.IsFocusing = this.IsFocusing;
+
+			return myitem;
+		}
+
 		public override void SetDefaults( Item item ) {
 			if( !this.SetDefaultsForManaPickup(item) ) {
 				this.SetDefaultsForPrefix( item );
