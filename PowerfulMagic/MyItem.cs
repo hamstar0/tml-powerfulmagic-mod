@@ -20,6 +20,8 @@ namespace PowerfulMagic {
 
 		public override bool InstancePerEntity => true;
 
+		public override bool CloneNewInstances => false;
+
 
 
 		////////////////
