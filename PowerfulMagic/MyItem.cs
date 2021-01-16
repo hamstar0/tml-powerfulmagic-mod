@@ -1,5 +1,5 @@
 using System;
-using System.Linq;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,6 +9,8 @@ using HamstarHelpers.Helpers.Debug;
 namespace PowerfulMagic {
 	public partial class PowerfulMagicItem : GlobalItem {
 		private int OldHoldStyle = 0;
+
+		private bool DestroyMe = false;
 
 
 		////////////////
@@ -29,14 +31,22 @@ namespace PowerfulMagic {
 		public override GlobalItem Clone( Item item, Item itemClone ) {
 			var myitem = (PowerfulMagicItem)base.Clone( item, itemClone );
 			myitem.OldHoldStyle = this.OldHoldStyle;
+			myitem.DestroyMe = this.DestroyMe;
 			myitem.IsFocusing = this.IsFocusing;
 
 			return myitem;
 		}
 
 		public override void SetDefaults( Item item ) {
-			if( !this.SetDefaultsForManaPickup(item) ) {
+			switch( item.type ) {
+			case ItemID.Star:
+			case ItemID.SoulCake:
+			case ItemID.SugarPlum:
+				this.SetDefaultsForManaPickup( item );
+				break;
+			default:
 				this.SetDefaultsForPrefix( item );
+				break;
 			}
 		}
 
@@ -44,34 +54,70 @@ namespace PowerfulMagic {
 
 		private void SetDefaultsForPrefix( Item item ) {
 			var config = PowerfulMagicConfig.Instance;
+			if( !config.Get<bool>( nameof(config.RemoveItemArcanePrefix) ) ) {
+				return;
+			}
 
-			if( config.Get<bool>( nameof( config.RemoveItemArcanePrefix ) ) ) {
-				while( item.prefix == PrefixID.Arcane ) {//?
-					item.Prefix( -1 );
-				}
+			while( item.prefix == PrefixID.Arcane ) {//?
+				item.Prefix( -1 );
 			}
 		}
 
-		private bool SetDefaultsForManaPickup( Item item ) {
-			if( item.type != ItemID.Star && item.type != ItemID.SoulCake && item.type != ItemID.SugarPlum ) {
-				return true;
-			}
+		private void SetDefaultsForManaPickup( Item item ) {
 			if( Main.netMode == NetmodeID.MultiplayerClient ) {
-				return true;
+				return;
 			}
-			if( Main.item.Any(i => i == item) ) {
-				return true;
+
+			int mainIdx = Array.FindIndex( Main.item, i => i == item );
+			if( mainIdx == -1 ) {
+				return;
 			}
 
 			var config = PowerfulMagicConfig.Instance;
 
-			float manaStarDropPerc = config.Get<float>( nameof( config.ManaStarDropChancePercentOfVanilla ) );
-			bool iAmAir = manaStarDropPerc <= Main.rand.NextFloat();
-
+			float manaStarDropPerc = config.Get<float>( nameof(config.ManaStarDropChancePercentOfVanilla) );
+			bool iAmAir = Main.rand.NextFloat() > manaStarDropPerc;
+			
 			if( iAmAir ) {
-				item.TurnToAir();
+				this.DestroyMe = true;
 			}
-			return !iAmAir;
+		}
+
+
+		////////////////
+
+		public override void NetSend( Item item, BinaryWriter writer ) {
+			switch( item.type ) {
+			case ItemID.Star:
+			case ItemID.SoulCake:
+			case ItemID.SugarPlum:
+				writer.Write( this.DestroyMe );
+				break;
+			}
+		}
+
+		public override void NetReceive( Item item, BinaryReader reader ) {
+			switch( item.type ) {
+			case ItemID.Star:
+			case ItemID.SoulCake:
+			case ItemID.SugarPlum:
+				this.DestroyMe = reader.ReadBoolean();
+				break;
+			}
+		}
+
+
+		////////////////
+
+		public override void Update( Item item, ref float gravity, ref float maxFallSpeed ) {
+			if( this.DestroyMe ) {
+				int mainIdx = Array.FindIndex( Main.item, i => i == item );
+
+				if( Main.item[mainIdx].active && Main.item[mainIdx].type == item.type ) {
+					item.active = false;
+					Main.item[mainIdx] = new Item();
+				}
+			}
 		}
 
 
@@ -123,6 +169,10 @@ namespace PowerfulMagic {
 
 
 		////
+
+		public override bool CanPickup( Item item, Player player ) {
+			return !this.DestroyMe;
+		}
 
 		public override bool OnPickup( Item item, Player player ) {
 			if( item.type == ItemID.Star || item.type == ItemID.SoulCake || item.type == ItemID.SugarPlum ) {

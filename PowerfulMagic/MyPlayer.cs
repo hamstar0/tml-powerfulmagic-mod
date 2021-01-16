@@ -74,11 +74,14 @@ namespace PowerfulMagic {
 				this.ApplyFocusMovementEffects();
 			}
 
-			if( this.player.velocity.Y != 0 ) {
+			if( this.player.velocity.Y > 0.1f ) {
 				var config = PowerfulMagicConfig.Instance;
 
 				if( config.Get<bool>( nameof(config.FocusInterruptsOnMove) ) ) {
-					this.FocusPercent = 0f;
+					this.FocusPercent -= 1f / 3f;
+					if( this.FocusPercent < 0f ) {
+						this.FocusPercent = 0f;
+					}
 				}
 			}
 		}

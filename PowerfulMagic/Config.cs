@@ -99,6 +99,9 @@ namespace PowerfulMagic {
 		[DefaultValue( true )]
 		public bool RemoveMerchantLesserPotions { get; set; } = true;
 
+		[DefaultValue( true )]
+		public bool ReplaceWizardGreaterPotions { get; set; } = true;
+
 
 		//
 		

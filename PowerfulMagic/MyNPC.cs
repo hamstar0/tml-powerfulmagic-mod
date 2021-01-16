@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using PowerfulMagic.Items;
 
 
 namespace PowerfulMagic {
@@ -31,12 +32,20 @@ namespace PowerfulMagic {
 		////////////////
 		
 		public override void SetupShop( int type, Chest shop, ref int nextSlot ) {
+			var config = PowerfulMagicConfig.Instance;
+
 			if( type == NPCID.Merchant ) {
-				if( PowerfulMagicConfig.Instance.Get<bool>( nameof(PowerfulMagicConfig.RemoveMerchantLesserPotions) ) ) {
+				if( config.Get<bool>( nameof(config.RemoveMerchantLesserPotions) ) ) {
 					PowerfulMagicNPC.FilterShop( shop.item, new HashSet<int> { ItemID.LesserManaPotion }, ref nextSlot );
 				}
 			} else if( type == NPCID.Wizard ) {
-				PowerfulMagicNPC.FilterShop( shop.item, new HashSet<int> { ItemID.GreaterManaPotion }, ref nextSlot );
+				if( config.Get<bool>( nameof(config.ReplaceWizardGreaterPotions) ) ) {
+					PowerfulMagicNPC.FilterShop( shop.item, new HashSet<int> { ItemID.GreaterManaPotion }, ref nextSlot );
+
+					var concentrateItem = new Item();
+					concentrateItem.SetDefaults( ModContent.ItemType<ManaPotionConcentrateItem>() );
+					shop.item[ nextSlot++ ] = concentrateItem;
+				}
 			}
 		}
 	}

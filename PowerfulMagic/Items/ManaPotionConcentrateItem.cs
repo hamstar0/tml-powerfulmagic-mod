@@ -27,7 +27,7 @@ namespace PowerfulMagic.Items {
             recipe.AddTile( TileID.Bottles );
             recipe.AddIngredient( this, 2 );
             recipe.AddIngredient( ItemID.FallenStar, 1 );
-            recipe.AddIngredient( ItemID.Bottle, 2 );
+            recipe.AddIngredient( ItemID.ManaPotion, 2 );
             recipe.SetResult( ItemID.GreaterManaPotion, 2 );
             recipe.AddRecipe();
         }
