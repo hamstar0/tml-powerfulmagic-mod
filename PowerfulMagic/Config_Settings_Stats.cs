@@ -3,9 +3,7 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
-using HamstarHelpers.Classes.UI.ModConfig;
 
 
 namespace PowerfulMagic {
@@ -35,13 +33,6 @@ namespace PowerfulMagic {
 		[Range( 1, 601 )]
 		[DefaultValue( (int)(60f * 5.5f) + 1 )]
 		public int ManaSicknessMaximumTicksAllowedToEnableAttacks { get; set; } = (int)(60f * 5.5f) + 1;
-
-		//
-
-		[Range( 0f, 1f )]
-		[DefaultValue( 0.15f )]
-		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
-		public float ManaStarDropChancePercentOfVanilla { get; set; } = 0.15f;
 
 		//
 

@@ -66,7 +66,24 @@ namespace PowerfulMagic {
 
 			if( this.IsFocusing ) {
 				Vector2 heldOffset = player.itemLocation - player.MountedCenter;
-				player.itemLocation -= heldOffset * 0.75f;
+
+				switch( item.type ) {
+				case ItemID.SpaceGun:
+				case ItemID.LaserRifle:
+				case ItemID.BeeGun:
+				case ItemID.WaspGun:
+				case ItemID.BubbleGun:
+				case ItemID.RainbowGun:
+				case ItemID.ChargedBlasterCannon:
+					heldOffset.X += Math.Abs( heldOffset.X );
+					//heldOffset.Y += Math.Abs( heldOffset.Y );
+					//heldOffset.X += 20;
+					heldOffset.Y += 12;
+					break;
+				}
+
+				player.itemLocation -= heldOffset;
+				//player.itemLocation -= heldOffset * 0.75f;	// hold item 75% closer
 			}
 		}
 

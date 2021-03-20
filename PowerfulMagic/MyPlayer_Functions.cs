@@ -56,8 +56,17 @@ namespace PowerfulMagic {
 
 		private void UpdateFocusManaRegen() {
 			var config = PowerfulMagicConfig.Instance;
+			Item heldItem = this.player.HeldItem;
+			bool usesAlt = false;
 
-			if( Main.mouseRight && this.player.HeldItem?.magic == true ) {
+			switch( heldItem?.type ) {
+			case ItemID.ChargedBlasterCannon:
+			case ItemID.BookStaff:
+				usesAlt = true;
+				break;
+			}
+
+			if( Main.mouseRight && heldItem?.magic == true && !usesAlt ) {
 				this.FocusPercent += config.Get<float>( nameof(PowerfulMagicConfig.FocusPercentChargeRatePerTick) );
 				if( this.FocusPercent > 1f ) {
 					this.FocusPercent = 1f;
