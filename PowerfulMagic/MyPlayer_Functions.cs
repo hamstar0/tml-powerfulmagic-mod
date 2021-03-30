@@ -28,7 +28,8 @@ namespace PowerfulMagic {
 				? this.player.buffTime[ manaSicknessBuffIdx ]
 				: 0;
 
-			afterScale *= PowerfulMagicItem.GetItemDamageScale( item, manaSicknessTicks );
+			afterScale *= PowerfulMagicItem.GetItemDamageScale( item, manaSicknessTicks )
+				?? 1f;
 			//afterScale *= 1f - ((manaSicknessTicks / 300) * PowerfulMagicConfig.Instance.MaxManaSicknessDamageScale);
 		}
 

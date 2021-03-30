@@ -22,10 +22,6 @@ namespace PowerfulMagic {
 
 		////////////////
 
-		public PowerfulMagicMod() {
-			PowerfulMagicMod.Instance = this;
-		}
-
 		public override void Load() {
 			PowerfulMagicMod.Instance = this;
 		}

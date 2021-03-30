@@ -139,7 +139,8 @@ namespace PowerfulMagic {
 					int buffIdx = player.FindBuffIndex( BuffID.ManaSickness );
 					int manaSicknessDuration = buffIdx < 0 ? 0 : player.buffTime[buffIdx];
 
-					float dmgScale = PowerfulMagicItem.GetItemDamageScale( item, manaSicknessDuration );
+					float dmgScale = PowerfulMagicItem.GetItemDamageScale( item, manaSicknessDuration )
+						?? 1f;
 					int damage = (int)( (float)item.damage * dmgScale );
 
 					this.ApplyPlayerSpellFx( damage );

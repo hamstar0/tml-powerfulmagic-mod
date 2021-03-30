@@ -8,9 +8,9 @@ using Terraria.ModLoader.Config;
 
 namespace PowerfulMagic {
 	public partial class PowerfulMagicItem : GlobalItem {
-		public static float GetItemDamageScale( Item item, int manaSicknessTicks ) {
+		public static float? GetItemDamageScale( Item item, int manaSicknessTicks ) {
 			if( !item.magic ) {
-				return 1f;
+				return null;
 			}
 
 			var config = PowerfulMagicConfig.Instance;

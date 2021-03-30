@@ -1,12 +1,18 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using HamstarHelpers.Services.Timers;
 
 
 namespace PowerfulMagic {
 	partial class PowerfulMagicPlayer : ModPlayer {
+		internal int ClaimNextMagicProjectile = 0;
+
+
+		////////////////
+
 		public float FocusPercent { get; private set; } = 0f;
 
 		public bool RecentPickup { get; internal set; } = false;
@@ -15,7 +21,7 @@ namespace PowerfulMagic {
 
 
 		////////////////
-
+		
 		public override bool CloneNewInstances => false;
 
 
@@ -115,6 +121,15 @@ namespace PowerfulMagic {
 		public override bool Shoot( Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack ) {
 			if( item.magic ) {
 				this.FocusPercent = 0f;
+			}
+
+			int manaSicknessBuffIdx = this.player.FindBuffIndex( BuffID.ManaSickness );
+			int manaSicknessTicks = manaSicknessBuffIdx != -1
+				? this.player.buffTime[manaSicknessBuffIdx]
+				: 0;
+			float? scale = PowerfulMagicItem.GetItemDamageScale( item, manaSicknessTicks );
+			if( scale.HasValue ) {
+				this.ClaimNextMagicProjectile++;
 			}
 
 			return base.Shoot( item, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack );

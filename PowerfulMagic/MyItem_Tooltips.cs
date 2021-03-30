@@ -11,8 +11,8 @@ namespace PowerfulMagic {
 				return;
 			}
 
-			float dmgScale = PowerfulMagicItem.GetItemDamageScale( item, 0 );
-			if( dmgScale == 1f ) {
+			float? dmgScale = PowerfulMagicItem.GetItemDamageScale( item, 0 );
+			if( !dmgScale.HasValue ) {
 				return;
 			}
 
@@ -24,7 +24,7 @@ namespace PowerfulMagic {
 
 			string modName = "[c/FFFF88:" + PowerfulMagicMod.Instance.DisplayName + "] - ";
 			//int newDmg = Main.LocalPlayer.GetWeaponDamage( item );
-			int dmgPercent = (int)(dmgScale * 100f);
+			int dmgPercent = (int)(dmgScale.Value * 100f);
 			int manaPercent = (int)(config.Get<float>( nameof(PowerfulMagicConfig.WeaponManaConsumeMulitplier) ) * 100f);
 
 			string tip1Text = modName + "Magic increased " + dmgPercent + "% of base amount";
