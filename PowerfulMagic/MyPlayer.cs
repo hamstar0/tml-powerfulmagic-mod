@@ -34,9 +34,13 @@ namespace PowerfulMagic {
 				this.RecentManaStarPickup();
 			}
 
-			if( this.player.whoAmI == Main.myPlayer ) {
-				this.PreUpdateLocal();
+			if( Main.netMode != NetmodeID.Server ) {
+				if( this.player.whoAmI == Main.myPlayer ) {
+					this.PreUpdateLocal();
+				}
 			}
+
+			this.UpdateMeteorArmorIf();
 		}
 
 		private void PreUpdateLocal() {
@@ -121,6 +125,8 @@ namespace PowerfulMagic {
 		public override bool Shoot( Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack ) {
 			if( item.magic ) {
 				this.FocusPercent = 0f;
+
+				this.ApplyMeteorArmorShootBehaviorIf( item );
 			}
 
 			int manaSicknessBuffIdx = this.player.FindBuffIndex( BuffID.ManaSickness );
@@ -133,6 +139,13 @@ namespace PowerfulMagic {
 			}
 
 			return base.Shoot( item, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack );
+		}
+
+
+		////////////////
+
+		public override void ModifyDrawInfo( ref PlayerDrawInfo drawInfo ) {
+			this.ApplyMeteorArmorAppearanceIf( ref drawInfo );
 		}
 	}
 }

@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,6 +12,8 @@ namespace PowerfulMagic {
 		private int OldHoldStyle = 0;
 
 		private bool DestroyMe = false;
+
+		internal float Temperature = 0f;
 
 
 		////////////////
@@ -187,5 +190,18 @@ namespace PowerfulMagic {
 
 			return base.OnPickup( item, player );
 		}
+
+
+		////////////////
+
+		public override Color? GetAlpha( Item item, Color lightColor ) {
+			if( this.Temperature > 0 ) {
+				return PowerfulMagicItem.GetTemperatureColor( lightColor, this.Temperature );
+			}
+
+			return base.GetAlpha( item, lightColor );
+		}
+		//public override bool PreDrawInInventory( Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale ) {
+		//}
 	}
 }
