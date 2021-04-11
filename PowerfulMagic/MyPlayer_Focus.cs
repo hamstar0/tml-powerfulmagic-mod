@@ -19,7 +19,9 @@ namespace PowerfulMagic {
 			}
 
 			if( Main.mouseRight && heldItem?.magic == true && !usesAlt ) {
-				this.FocusPercent += config.Get<float>( nameof(PowerfulMagicConfig.FocusPercentChargeRatePerTick) );
+				float focusChargePerSec = config.Get<float>( nameof(PowerfulMagicConfig.FocusManaChargeRatePerSecondIncrease) );
+
+				this.FocusPercent += focusChargePerSec / 60f;
 				if( this.FocusPercent > 1f ) {
 					this.FocusPercent = 1f;
 				}
