@@ -3,8 +3,8 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using HamstarHelpers.Classes.CameraAnimation;
-using HamstarHelpers.Helpers.Players;
+using ModLibsCamera.Classes.CameraAnimation;
+using ModLibsGeneral.Libraries.Players;
 
 
 namespace PowerfulMagic {
@@ -20,7 +20,7 @@ namespace PowerfulMagic {
 		////////////////
 
 		private void ApplyPlayerSpellFx( int damage ) {
-			if( !PlayerMovementHelpers.IsOnFloor( Main.LocalPlayer ) ) {
+			if( !PlayerMovementLibraries.IsOnFloor( Main.LocalPlayer ) ) {
 				return;
 			}
 

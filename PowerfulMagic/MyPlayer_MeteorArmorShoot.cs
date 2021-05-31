@@ -2,7 +2,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using HamstarHelpers.Helpers.Debug;
+using ModLibsCore.Libraries.Debug;
 
 
 namespace PowerfulMagic {
@@ -21,7 +21,7 @@ namespace PowerfulMagic {
 					this.MeteorArmorTemperature = 0f;
 				}
 			}
-//DebugHelpers.Print( "temp", "temp:"+this.MeteorArmorTemperature );
+//DebugLibraries.Print( "temp", "temp:"+this.MeteorArmorTemperature );
 
 			Item head = this.player.armor[0];
 			Item body = this.player.armor[1];

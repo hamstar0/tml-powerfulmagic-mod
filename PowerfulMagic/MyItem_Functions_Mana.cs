@@ -1,10 +1,7 @@
 using System;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using HamstarHelpers.Classes.CameraAnimation;
-using HamstarHelpers.Helpers.Players;
 
 
 namespace PowerfulMagic {
