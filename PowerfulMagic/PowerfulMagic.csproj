@@ -18,6 +18,9 @@
     <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Messages">
+      <HintPath>..\..\..\Messages\Project\Messages\bin\Release\net452\Messages.dll</HintPath>
+    </Reference>
     <Reference Include="ModLibsCamera">
       <HintPath>..\..\..\Mod Libs\Mod Libs Services Camera Controls\Project\ModLibsCamera\bin\Release\net452\ModLibsCamera.dll</HintPath>
     </Reference>

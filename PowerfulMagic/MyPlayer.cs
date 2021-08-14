@@ -8,11 +8,27 @@ using ModLibsCore.Services.Timers;
 
 namespace PowerfulMagic {
 	partial class PowerfulMagicPlayer : ModPlayer {
-		internal int ClaimNextMagicProjectile = 0;
+		private static void MessageAboutFocus() {
+			Messages.MessagesAPI.AddMessagesCategoriesInitializeEvent( () => {
+				Messages.MessagesAPI.AddMessage(
+					title: "Use \"focus\" to recharge mana",
+					description: "Hold right-click when equipping a magic weapon to \"focus\" and recharge mana.",
+					modOfOrigin: PowerfulMagicMod.Instance,
+					id: "PowerfulMagicFocus",
+					parentMessage: Messages.MessagesAPI.HintsTipsCategoryMsg
+				);
+			} );
+		}
+
 
 
 		////////////////
 
+		internal int ClaimNextMagicProjectile = 0;
+
+
+		////////////////
+		
 		public float FocusPercent { get; private set; } = 0f;
 
 		public bool RecentPickup { get; internal set; } = false;
@@ -54,6 +70,10 @@ namespace PowerfulMagic {
 			Item heldItem = this.player.HeldItem;
 			if( heldItem == null || heldItem.IsAir || !heldItem.magic ) {
 				return base.PreItemCheck();
+			}
+
+			if( ModLoader.GetMod( "Messages" ) != null ) {
+				PowerfulMagicPlayer.MessageAboutFocus();
 			}
 
 			if( !this.IsMagicItemAllowedForUse() ) {
