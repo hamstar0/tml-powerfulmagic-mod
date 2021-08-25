@@ -15,7 +15,9 @@ namespace PowerfulMagic {
 					description: "Hold right-click when equipping a magic weapon to \"focus\" and recharge mana.",
 					modOfOrigin: PowerfulMagicMod.Instance,
 					id: "PowerfulMagicFocus",
-					parentMessage: Messages.MessagesAPI.HintsTipsCategoryMsg
+					parentMessage: Messages.MessagesAPI.HintsTipsCategoryMsg,
+					alertPlayer: true,
+					isImportant: false
 				);
 			} );
 		}
