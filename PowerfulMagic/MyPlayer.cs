@@ -10,13 +10,15 @@ namespace PowerfulMagic {
 	partial class PowerfulMagicPlayer : ModPlayer {
 		private static void MessageAboutFocus() {
 			Messages.MessagesAPI.AddMessagesCategoriesInitializeEvent( () => {
+				string id = "PowerfulMagicFocus";
+
 				Messages.MessagesAPI.AddMessage(
 					title: "Use \"focus\" to recharge mana",
 					description: "Hold right-click when equipping a magic weapon to \"focus\" and recharge mana.",
 					modOfOrigin: PowerfulMagicMod.Instance,
-					id: "PowerfulMagicFocus",
+					id: id,
 					parentMessage: Messages.MessagesAPI.HintsTipsCategoryMsg,
-					alertPlayer: true,
+					alertPlayer: Messages.MessagesAPI.IsUnread(id),
 					isImportant: false
 				);
 			} );
