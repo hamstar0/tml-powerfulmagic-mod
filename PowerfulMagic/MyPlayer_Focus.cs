@@ -31,7 +31,7 @@ namespace PowerfulMagic {
 			
 			if( this.FocusPercent > 0f && (Main.GameUpdateCount % 60) == 0 ) {
 				float focusChargeRate = config.Get<float>( nameof(PowerfulMagicConfig.FocusManaChargeMaxRatePerSecond) );
-				int amt = (int)( this.FocusPercent * focusChargeRate );
+				int amt = (int)(this.FocusPercent * focusChargeRate);
 
 				if( amt > 0 ) {
 					this.player.statMana += amt;
@@ -43,7 +43,15 @@ namespace PowerfulMagic {
 
 		////////////////
 
-		private void ApplyFocusMovementEffects() {
+		private void ApplyFocusMovementBehavior() {
+			this.ApplyFocusMovementChanges();
+
+			this.ApplyFocusMovementInterruptionsIf();
+		}
+
+		////
+
+		private void ApplyFocusMovementChanges() {
 			var config = PowerfulMagicConfig.Instance;
 
 			this.player.maxRunSpeed *= config.Get<float>( nameof(PowerfulMagicConfig.FocusMoveSpeedScale) );
@@ -54,6 +62,23 @@ namespace PowerfulMagic {
 			int maxJump = (int)( (float)Player.jumpHeight * jumpScale );
 			if( this.player.jump > maxJump ) {
 				this.player.jump = maxJump;
+			}
+		}
+
+
+		private void ApplyFocusMovementInterruptionsIf() {
+			if( this.player.velocity.Y < 0.2f ) {   // was 0.1
+				return;
+			}
+
+			var config = PowerfulMagicConfig.Instance;
+			if( !config.Get<bool>(nameof(config.FocusInterruptsOnMove) ) ) {
+				return;
+			}
+
+			this.FocusPercent -= 1f / 5f;   // was 1/3
+			if( this.FocusPercent < 0f ) {
+				this.FocusPercent = 0f;
 			}
 		}
 	}

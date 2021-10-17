@@ -1,6 +1,7 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using ModLibsCore.Libraries.Debug;
 
 
 namespace PowerfulMagic {
@@ -17,7 +18,8 @@ namespace PowerfulMagic {
 				if( PowerfulMagicConfig.Instance.DebugModeInfo ) {
 					//DebugLibraries.Print( "manaregen", "Old mana regen amount: "+this.player.manaRegenCount );
 				}
-
+				
+				// Removes 
 				this.player.manaRegenCount -= (int)( (float)this.player.manaRegen * mul );
 			}
 		}
@@ -45,6 +47,7 @@ namespace PowerfulMagic {
 				float manaHealScale = config.Get<float>( nameof(PowerfulMagicConfig.ManaHealScale) );
 
 				txt.text = (int)( (float)100 * manaHealScale ) + "";
+
 				break;
 			}
 		}
