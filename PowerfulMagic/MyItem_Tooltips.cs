@@ -4,30 +4,17 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using ModLibsGeneral.Libraries.Misc;
 
 
 namespace PowerfulMagic {
 	public partial class PowerfulMagicItem : GlobalItem {
 		public override void ModifyTooltips( Item item, List<TooltipLine> tooltips ) {
-			if( !item.magic ) {
-				return;
-			}
-
-			float? dmgScale = PowerfulMagicItem.GetItemDamageScale( item, 0 );
-			if( !dmgScale.HasValue ) {
-				return;
-			}
-
-			var config = PowerfulMagicConfig.Instance;
-			if( config == null ) {
-				return;
-			}
-
 			string modName = "[c/FFFF88:" + PowerfulMagicMod.Instance.DisplayName + "] - ";
 
 			int tipIdx = 1;
 
-			this.ModifyTooltips_Magic( modName, tooltips, dmgScale.Value, ref tipIdx );
+			this.ModifyTooltips_MagicIf( modName, item, tooltips, ref tipIdx );
 
 			switch( item.type ) {
 			case ItemID.SpaceGun:
@@ -46,12 +33,24 @@ namespace PowerfulMagic {
 
 		////////////////
 
-		private void ModifyTooltips_Magic(
+		private void ModifyTooltips_MagicIf(
 					string modName,
+					Item item,
 					List<TooltipLine> tooltips,
-					float dmgScale,
 					ref int tipIdx ) {
+			if( !item.magic ) {
+				return;
+			}
+
+			float? dmgScale = PowerfulMagicItem.GetItemDamageScale( item, 0 );
+			if( !dmgScale.HasValue ) {
+				return;
+			}
+
 			var config = PowerfulMagicConfig.Instance;
+			if( config == null ) {
+				return;
+			}
 
 			//int newDmg = Main.LocalPlayer.GetWeaponDamage( item );
 			int dmgPercent = (int)(dmgScale * 100f);
@@ -88,14 +87,18 @@ namespace PowerfulMagic {
 					Item item,
 					List<TooltipLine> tooltips,
 					ref int tipIdx ) {
-			if( this.Temperature <= 0f ) {
+			//var myplayer = Main.LocalPlayer.GetModPlayer<PowerfulMagicPlayer>();
+			//float temp = myplayer.MeteorArmorTemperature;
+			float temp = this.Temperature;
+			if( temp <= 0f ) {
 				return;
 			}
 
-			string tipText = modName + "Temperature percent until overhead: " + (int)this.Temperature;
-			var tip = new TooltipLine( this.mod, "PowerfulMagicTemp", tipText );
+			Color color = Color.Lerp( Color.Lime, Color.Red, Math.Min(temp / 100f, 1f) );
+			string clrHex = MiscLibraries.RenderColorHex( color );
 
-			tip.overrideColor = Color.Lerp( Color.Lime, Color.Red, this.Temperature );
+			string tipText = modName + "Temperature percent until overheat: [c/"+clrHex+":" + (int)temp + "%]";
+			var tip = new TooltipLine( this.mod, "PowerfulMagicTemp", tipText );
 
 			tooltips.Insert( tipIdx++, tip );
 		}

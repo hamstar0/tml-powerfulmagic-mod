@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -36,6 +35,7 @@ namespace PowerfulMagic {
 			myitem.OldHoldStyle = this.OldHoldStyle;
 			myitem.DestroyMe = this.DestroyMe;
 			myitem.IsFocusing = this.IsFocusing;
+			myitem.Temperature = this.Temperature;
 
 			return myitem;
 		}
@@ -94,7 +94,14 @@ namespace PowerfulMagic {
 			case ItemID.Star:
 			case ItemID.SoulCake:
 			case ItemID.SugarPlum:
-				writer.Write( this.DestroyMe );
+				writer.Write( (bool)this.DestroyMe );
+				break;
+			case ItemID.SpaceGun:
+			case ItemID.LaserRifle:
+			case ItemID.MeteorHelmet:
+			case ItemID.MeteorSuit:
+			case ItemID.MeteorLeggings:
+				writer.Write( (float)this.Temperature );
 				break;
 			}
 		}
@@ -105,6 +112,13 @@ namespace PowerfulMagic {
 			case ItemID.SoulCake:
 			case ItemID.SugarPlum:
 				this.DestroyMe = reader.ReadBoolean();
+				break;
+			case ItemID.SpaceGun:
+			case ItemID.LaserRifle:
+			case ItemID.MeteorHelmet:
+			case ItemID.MeteorSuit:
+			case ItemID.MeteorLeggings:
+				this.Temperature = reader.ReadSingle();
 				break;
 			}
 		}
@@ -190,18 +204,5 @@ namespace PowerfulMagic {
 
 			return base.OnPickup( item, player );
 		}
-
-
-		////////////////
-
-		public override Color? GetAlpha( Item item, Color lightColor ) {
-			if( this.Temperature > 0 ) {
-				return PowerfulMagicItem.GetTemperatureColor( lightColor, this.Temperature );
-			}
-
-			return base.GetAlpha( item, lightColor );
-		}
-		//public override bool PreDrawInInventory( Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale ) {
-		//}
 	}
 }

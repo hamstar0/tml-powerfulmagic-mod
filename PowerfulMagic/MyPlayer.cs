@@ -41,7 +41,12 @@ namespace PowerfulMagic {
 
 
 		////////////////
-		
+
+		public float MeteorArmorTemperature { get; private set; } = 0f;
+
+
+		////////////////
+
 		public override bool CloneNewInstances => false;
 
 
@@ -51,6 +56,7 @@ namespace PowerfulMagic {
 		public override void PreUpdate() {
 			if( this.RecentPickup ) {
 				this.RecentPickup = false;
+
 				this.RecentManaStarPickup();
 			}
 
@@ -60,7 +66,7 @@ namespace PowerfulMagic {
 				}
 			}
 
-			this.UpdateMeteorArmorIf();
+			this.UpdateTemperatureAndEffects();
 		}
 
 		private void PreUpdateLocal() {

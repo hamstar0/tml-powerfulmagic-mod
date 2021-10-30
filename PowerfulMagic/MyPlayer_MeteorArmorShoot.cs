@@ -7,13 +7,7 @@ using ModLibsCore.Libraries.Debug;
 
 namespace PowerfulMagic {
 	partial class PowerfulMagicPlayer : ModPlayer {
-		private float MeteorArmorTemperature = 0f;
-
-
-
-		////////////////
-
-		private void UpdateMeteorArmorIf() {
+		private void UpdateTemperatureAndEffects() {
 			if( this.MeteorArmorTemperature > 0f ) {
 				this.MeteorArmorTemperature -= 2.5f / 60f;
 
@@ -23,6 +17,8 @@ namespace PowerfulMagic {
 			}
 //DebugLibraries.Print( "temp", "temp:"+this.MeteorArmorTemperature );
 
+			//
+
 			Item head = this.player.armor[0];
 			Item body = this.player.armor[1];
 			Item legs = this.player.armor[2];
@@ -30,11 +26,11 @@ namespace PowerfulMagic {
 			if( head.active && head.type == ItemID.MeteorHelmet
 					&& body.active && body.type == ItemID.MeteorSuit
 					&& legs.active && legs.type == ItemID.MeteorLeggings ) {
-				this.UpdateMeteorArmor();
+				this.UpdateTemperatureItems();
 			}
 		}
 
-		private void UpdateMeteorArmor() {
+		private void UpdateTemperatureItems() {
 			if( this.MeteorArmorTemperature >= 100f ) {
 				this.player.AddBuff( BuffID.Burning, 2 );
 			}

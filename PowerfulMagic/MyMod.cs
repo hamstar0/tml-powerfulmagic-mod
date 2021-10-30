@@ -1,17 +1,14 @@
 using System;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 
 namespace PowerfulMagic {
 	partial class PowerfulMagicMod : Mod {
-		public static PowerfulMagicMod Instance { get; private set; }
+		public static PowerfulMagicMod Instance => ModContent.GetInstance<PowerfulMagicMod>();
 
-
-
-		////////////////
-
-		public float Oscillate { get; private set; } = 0f;
 
 
 		////////////////
@@ -19,15 +16,22 @@ namespace PowerfulMagic {
 		private bool OscillateDir = false;
 
 
+		////////////////
+
+		public float Oscillate { get; private set; } = 0f;
+
+		public Texture2D ThermoTex { get; private set; }
+		public Texture2D ThermoBarTex { get; private set; }
+
+
 
 		////////////////
 
 		public override void Load() {
-			PowerfulMagicMod.Instance = this;
-		}
-
-		public override void Unload() {
-			PowerfulMagicMod.Instance = null;
+			if( Main.netMode != NetmodeID.Server ) {
+				this.ThermoTex = ModContent.GetTexture( "PowerfulMagic/Thermo" );
+				this.ThermoBarTex = ModContent.GetTexture( "PowerfulMagic/ThermoBar" );
+			}
 		}
 
 
