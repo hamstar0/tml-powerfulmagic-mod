@@ -34,6 +34,11 @@ namespace PowerfulMagic {
 				int amt = (int)(this.FocusPercent * focusChargeRate);
 
 				if( amt > 0 ) {
+					int missingMana = this.player.statManaMax2 - this.player.statMana;
+					if( missingMana < amt ) {
+						amt = missingMana;
+					}
+
 					this.player.statMana += amt;
 					CombatText.NewText( this.player.getRect(), CombatText.HealMana, amt );
 				}
@@ -67,7 +72,7 @@ namespace PowerfulMagic {
 
 
 		private void ApplyFocusMovementInterruptionsIf() {
-			if( this.player.velocity.Y < 0.2f ) {   // was 0.1
+			if( Math.Abs(this.player.velocity.Y) < 1f ) {   // was 0.1
 				return;
 			}
 

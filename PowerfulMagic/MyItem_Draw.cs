@@ -43,7 +43,9 @@ namespace PowerfulMagic {
 
 			float tempPerc = Math.Min( this.Temperature / 100f, 1f );
 			float invTempPerc = 1f - tempPerc;
-			float tempOffset = (float)thermBarTex.Height * tempPerc;
+
+			float visiblity = 0.15f + (0.85f * tempPerc);
+
 			float invTempOffset = (float)thermBarTex.Height * invTempPerc;
 			int pixInvTempOffset = (int)Math.Ceiling( invTempOffset );
 
@@ -51,7 +53,7 @@ namespace PowerfulMagic {
 				texture: thermTex,
 				position: position + offset,
 				sourceRectangle: null,	//frame
-				color: Color.White,
+				color: Color.White * visiblity,
 				rotation: 0f,
 				origin: default,
 				scale: scale,
@@ -74,7 +76,7 @@ namespace PowerfulMagic {
 				texture: thermBarTex,
 				position: position + offset + barOffset + barFrameOffset,
 				sourceRectangle: barFrame,	//frame
-				color: Color.White,
+				color: Color.White * visiblity,
 				rotation: 0f,
 				origin: default,
 				scale: scale,
