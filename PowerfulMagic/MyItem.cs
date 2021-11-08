@@ -8,6 +8,37 @@ using ModLibsCore.Libraries.Debug;
 
 namespace PowerfulMagic {
 	public partial class PowerfulMagicItem : GlobalItem {
+		public static bool IsPoweredUp( Item item, out bool isTreatedAsSpecialSpaceWeapon ) {
+			switch( item.type ) {
+			case ItemID.SpaceGun:
+			case ItemID.LaserRifle:
+				if( item.owner < 0 ) {
+					break;
+				}
+				Player ownerPlr = Main.player[item.owner];
+				if( ownerPlr?.active != true ) {
+					break;
+				}
+
+				Item headItem = ownerPlr.armor[0];
+				Item bodyItem = ownerPlr.armor[2];
+				Item legsItem = ownerPlr.armor[2];
+
+				isTreatedAsSpecialSpaceWeapon = headItem?.active == true && headItem.type == ItemID.MeteorHelmet
+					&& bodyItem?.active == true && bodyItem.type == ItemID.MeteorSuit
+					&& legsItem?.active == true && legsItem.type == ItemID.MeteorLeggings;
+
+				return !isTreatedAsSpecialSpaceWeapon;
+			}
+
+			isTreatedAsSpecialSpaceWeapon = false;
+			return item.magic;
+		}
+
+
+
+		////////////////
+
 		private int OldHoldStyle = 0;
 
 		private bool DestroyMe = false;
@@ -16,7 +47,7 @@ namespace PowerfulMagic {
 
 
 		////////////////
-
+		
 		public bool IsFocusing { get; private set; } = false;
 
 

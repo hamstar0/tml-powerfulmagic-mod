@@ -57,19 +57,8 @@ namespace PowerfulMagic {
 		////
 
 		private void ApplyMeteorArmorShootBehaviorIf( Item shootItem ) {
-			bool isSpaceGun = shootItem.type == ItemID.SpaceGun;
-			bool isLaserRifle = shootItem.type == ItemID.LaserRifle;
-			if( !isSpaceGun && !isLaserRifle ) {
-				return;
-			}
-
-			Item head = this.player.armor[0];
-			Item body = this.player.armor[1];
-			Item legs = this.player.armor[2];
-
-			if( !head.active || head.type != ItemID.MeteorHelmet
-					|| !body.active || body.type != ItemID.MeteorSuit
-					|| !legs.active || legs.type != ItemID.MeteorLeggings ) {
+			PowerfulMagicItem.IsPoweredUp( shootItem, out bool isTreatedAsSpecialSpaceWeapon );
+			if( !isTreatedAsSpecialSpaceWeapon ) {
 				return;
 			}
 

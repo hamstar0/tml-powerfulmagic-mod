@@ -15,33 +15,37 @@ namespace PowerfulMagic {
 
 			var config = PowerfulMagicConfig.Instance;
 
-			float maxManaSickDmgScale = config.Get<float>( nameof(PowerfulMagicConfig.MaxManaSicknessDamageScale) );
+			//
+
+			// Laser weapons + meteor armor = no mana = no damage increase
+			PowerfulMagicItem.IsPoweredUp( item, out bool isTreatedAsSpecialSpaceWeapon );
+			if( isTreatedAsSpecialSpaceWeapon ) {
+				return null;
+			}
+
+			//
+
+			float maxManaSickDmgScale = config.Get<float>( nameof(config.MaxManaSicknessDamageScale) );
+
 			float scale = ((float)manaSicknessTicks / 300f) * maxManaSickDmgScale;
 			scale = 1f - scale;
+
 			if( scale <= 0.25f ) {
 				return 0.25f;
 			}
 
-			if( item.type == ItemID.SpaceGun ) {
-				if( item.owner != -1 && Main.player[item.owner]?.active == true ) {
-					Player plr = Main.player[item.owner];
-
-					// Laser weapons + meteor armor = no mana = no damage increase
-					if( plr.armor[0].type == ItemID.MeteorHelmet
-						&& plr.armor[1].type == ItemID.MeteorSuit
-						&& plr.armor[2].type == ItemID.MeteorLeggings ) {
-						return scale;
-					}
-				}
-			}
+			//
 
 			var itemDef = new ItemDefinition( item.type );
 			var perItemDmgScale = config.Get<Dictionary<ItemDefinition, ItemMagicScale>>(
 				nameof(PowerfulMagicConfig.PerItemDamageScale)
 			);
+
 			if( perItemDmgScale.ContainsKey(itemDef) ) {
 				return perItemDmgScale[itemDef].Scale * scale;
 			}
+
+			//
 
 			return config.Get<float>(nameof(PowerfulMagicConfig.BaseDamageScale)) * scale;
 		}

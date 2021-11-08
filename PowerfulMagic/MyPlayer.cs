@@ -141,21 +141,28 @@ namespace PowerfulMagic {
 
 		////
 
-		public override bool Shoot( Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack ) {
+		public override bool Shoot(
+					Item item,
+					ref Vector2 position,
+					ref float speedX,
+					ref float speedY,
+					ref int type,
+					ref int damage,
+					ref float knockBack ) {
 			if( item.magic ) {
 				this.FocusPercent = 0f;
 
 				this.ApplyMeteorArmorShootBehaviorIf( item );
 			}
 
-			int manaSicknessBuffIdx = this.player.FindBuffIndex( BuffID.ManaSickness );
+			/*int manaSicknessBuffIdx = this.player.FindBuffIndex( BuffID.ManaSickness );
 			int manaSicknessTicks = manaSicknessBuffIdx != -1
 				? this.player.buffTime[manaSicknessBuffIdx]
 				: 0;
 			float? scale = PowerfulMagicItem.GetItemDamageScale( item, manaSicknessTicks );
 			if( scale.HasValue ) {
 				this.ClaimNextMagicProjectile++;
-			}
+			}*/
 
 			return base.Shoot( item, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack );
 		}
