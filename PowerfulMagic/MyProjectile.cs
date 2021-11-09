@@ -20,13 +20,15 @@ namespace PowerfulMagic {
 				if( proj.owner < 0 ) {
 					break;
 				}
-				Player ownerPlr = Main.player[proj.owner];
+				Player ownerPlr = Main.player[ proj.owner ];
 				if( ownerPlr?.active != true ) {
 					break;
 				}
 
+				//
+
 				Item headItem = ownerPlr.armor[0];
-				Item bodyItem = ownerPlr.armor[2];
+				Item bodyItem = ownerPlr.armor[1];
 				Item legsItem = ownerPlr.armor[2];
 
 				isTreatedAsSpecialSpaceWeapon =
@@ -90,7 +92,7 @@ namespace PowerfulMagic {
 		////////////////
 
 		public override bool PreDraw( Projectile projectile, SpriteBatch sb, Color lightColor ) {
-			if( PowerfulMagicProjectile.IsPoweredUp(projectile, out _) ) {
+			if( this.TrailPositions != null ) {		//if( PowerfulMagicProjectile.IsPoweredUp(projectile, out _) ) {
 				this.UpdateFx( projectile );
 
 				this.RenderTrail( sb, projectile, lightColor );
