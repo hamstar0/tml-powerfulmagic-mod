@@ -21,7 +21,7 @@ namespace PowerfulMagic {
 				}
 
 				Item headItem = ownerPlr.armor[0];
-				Item bodyItem = ownerPlr.armor[2];
+				Item bodyItem = ownerPlr.armor[1];
 				Item legsItem = ownerPlr.armor[2];
 
 				isTreatedAsSpecialSpaceWeapon = headItem?.active == true && headItem.type == ItemID.MeteorHelmet
