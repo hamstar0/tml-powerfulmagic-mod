@@ -13,18 +13,21 @@ namespace PowerfulMagic {
 			case ItemID.SpaceGun:
 			case ItemID.LaserRifle:
 				if( item.owner < 0 ) {
-					break;
+					isTreatedAsSpecialSpaceWeapon = false;
+					return false;
 				}
 				Player ownerPlr = Main.player[item.owner];
 				if( ownerPlr?.active != true ) {
-					break;
+					isTreatedAsSpecialSpaceWeapon = false;
+					return false;
 				}
 
 				Item headItem = ownerPlr.armor[0];
 				Item bodyItem = ownerPlr.armor[1];
 				Item legsItem = ownerPlr.armor[2];
 
-				isTreatedAsSpecialSpaceWeapon = headItem?.active == true && headItem.type == ItemID.MeteorHelmet
+				isTreatedAsSpecialSpaceWeapon =
+					headItem?.active == true && headItem.type == ItemID.MeteorHelmet
 					&& bodyItem?.active == true && bodyItem.type == ItemID.MeteorSuit
 					&& legsItem?.active == true && legsItem.type == ItemID.MeteorLeggings;
 

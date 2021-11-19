@@ -17,12 +17,14 @@ namespace PowerfulMagic {
 			switch( proj.type ) {
 			case ProjectileID.GreenLaser:
 			case ProjectileID.PurpleLaser:
-				if( proj.owner < 0 ) {
-					break;
+				if( proj.owner < 0 || proj.owner >= 255 ) {
+					isTreatedAsSpecialSpaceWeapon = false;
+					return false;
 				}
 				Player ownerPlr = Main.player[ proj.owner ];
 				if( ownerPlr?.active != true ) {
-					break;
+					isTreatedAsSpecialSpaceWeapon = false;
+					return false;
 				}
 
 				//
@@ -68,7 +70,9 @@ namespace PowerfulMagic {
 		////////////////
 
 		public override void SetDefaults( Projectile projectile ) {
-			if( PowerfulMagicProjectile.IsPoweredUp(projectile, out _) ) {
+			bool isSpecial;
+			
+			if( PowerfulMagicProjectile.IsPoweredUp(projectile, out isSpecial) && !isSpecial ) {
 				int len = PowerfulMagicProjectile.DramaticFxTrailDetail;
 
 				this.TrailPositions = new Vector2[ len ];
