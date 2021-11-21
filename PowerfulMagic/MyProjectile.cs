@@ -4,12 +4,14 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using ModLibsCore.Services.ProjectileOwner;
 
 
 namespace PowerfulMagic {
 	partial class PowerfulMagicProjectile : GlobalProjectile {
 		public static bool IsPoweredUp( Projectile proj, out bool isTreatedAsSpecialSpaceWeapon ) {
-			if( proj.npcProj ) {
+			Player ownerPlr = proj.GetOwner() as Player;
+			if( ownerPlr == null ) {
 				isTreatedAsSpecialSpaceWeapon = false;
 				return false;
 			}
@@ -17,18 +19,6 @@ namespace PowerfulMagic {
 			switch( proj.type ) {
 			case ProjectileID.GreenLaser:
 			case ProjectileID.PurpleLaser:
-				if( proj.owner < 0 || proj.owner >= 255 ) {
-					isTreatedAsSpecialSpaceWeapon = false;
-					return false;
-				}
-				Player ownerPlr = Main.player[ proj.owner ];
-				if( ownerPlr?.active != true ) {
-					isTreatedAsSpecialSpaceWeapon = false;
-					return false;
-				}
-
-				//
-
 				Item headItem = ownerPlr.armor[0];
 				Item bodyItem = ownerPlr.armor[1];
 				Item legsItem = ownerPlr.armor[2];
