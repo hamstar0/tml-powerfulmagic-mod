@@ -11,19 +11,27 @@ namespace PowerfulMagic {
 		public static void FilterShop( Item[] shop, ISet<int> itemBlacklist, ref int nextSlot ) {
 			for( int i = 0; i < shop.Length; i++ ) {
 				Item item = shop[i];
-				if( item == null || item.IsAir ) {
+				if( item?.active != true ) {
 					continue;
 				}
 
-				if( itemBlacklist.Contains(item.type) ) {
-					for( int j = i; j < shop.Length - 1; j++ ) {
-						shop[j] = shop[j + 1];
-					}
-					shop[shop.Length - 1] = new Item();
+				//
 
-					nextSlot--;
-					i--;
+				if( !itemBlacklist.Contains(item.type) ) {
+					continue;
 				}
+
+				//
+
+				for( int j = i; j < shop.Length - 1; j++ ) {
+					shop[j] = shop[j + 1];
+				}
+				shop[shop.Length - 1] = new Item();
+
+				//
+
+				nextSlot--;
+				i--;
 			}
 		}
 

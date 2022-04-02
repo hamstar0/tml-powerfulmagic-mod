@@ -32,11 +32,15 @@ namespace PowerfulMagic {
 				return;
 			}
 
-			scale *= 2f;
+			//
 
 			var mymod = PowerfulMagicMod.Instance;
 			Texture2D thermTex = mymod.ThermoTex;
 			Texture2D thermBarTex = mymod.ThermoBarTex;
+
+			//
+
+			scale *= 2f;
 
 			var offset = new Vector2( -4f, -4f ) * scale;
 			var barOffset = new Vector2( 2f, 2f ) * scale;
@@ -48,6 +52,8 @@ namespace PowerfulMagic {
 
 			float invTempOffset = (float)thermBarTex.Height * invTempPerc;
 			int pixInvTempOffset = (int)Math.Ceiling( invTempOffset );
+
+			//
 
 			sb.Draw(
 				texture: thermTex,
@@ -61,6 +67,8 @@ namespace PowerfulMagic {
 				layerDepth: 0f
 			);
 
+			//
+
 			var barFrameOffset = new Vector2(
 				0f,
 				(int)pixInvTempOffset * scale
@@ -71,6 +79,8 @@ namespace PowerfulMagic {
 				thermBarTex.Width,
 				thermBarTex.Height - (int)pixInvTempOffset
 			);
+
+			//
 
 			sb.Draw(
 				texture: thermBarTex,

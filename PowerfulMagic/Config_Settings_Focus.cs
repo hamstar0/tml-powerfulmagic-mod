@@ -10,7 +10,7 @@ namespace PowerfulMagic {
 		[Range( 0f, 1f )]
 		[DefaultValue( 1f / 3.5f )]	// 3.5 seconds until max
 		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
-		public float FocusManaChargeRatePerSecondIncrease { get; set; } = 1f / 3.5f;
+		public float FocusManaChargeRatePerSecond { get; set; } = 1f / 3.5f;
 
 		[Label( "Max focus mana charge amount per second" )]
 		[Range( 0f, 200f )]

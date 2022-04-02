@@ -13,8 +13,6 @@ namespace PowerfulMagic {
 				return null;
 			}
 
-			var config = PowerfulMagicConfig.Instance;
-
 			//
 
 			// Laser weapons + meteor armor = no mana = no damage increase
@@ -24,6 +22,8 @@ namespace PowerfulMagic {
 			}
 
 			//
+
+			var config = PowerfulMagicConfig.Instance;
 
 			float maxManaSickDmgScale = config.Get<float>( nameof(config.MaxManaSicknessDamageScale) );
 

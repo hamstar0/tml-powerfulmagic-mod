@@ -8,7 +8,7 @@ using ModLibsCore.Services.Timers;
 
 namespace PowerfulMagic {
 	partial class PowerfulMagicPlayer : ModPlayer {
-		private static void MessageAboutFocus() {
+		private static void MessageAboutFocus_WeakRef() {
 			Messages.MessagesAPI.AddMessagesCategoriesInitializeEvent( () => {
 				string id = "PowerfulMagicFocus";
 
@@ -66,11 +66,13 @@ namespace PowerfulMagic {
 				}
 			}
 
+			//
+
 			this.UpdateTemperatureAndEffects();
 		}
 
 		private void PreUpdateLocal() {
-			this.UpdateFocusManaRegen();
+			this.UpdateFocusManaRegen_If();
 		}
 
 
@@ -78,19 +80,24 @@ namespace PowerfulMagic {
 		
 		public override bool PreItemCheck() {
 			Item heldItem = this.player.HeldItem;
-			if( heldItem == null || heldItem.IsAir || !heldItem.magic ) {
+			if( heldItem?.active != true || !heldItem.magic ) {
 				return base.PreItemCheck();
 			}
 
+			//
+
 			if( ModLoader.GetMod( "Messages" ) != null ) {
-				PowerfulMagicPlayer.MessageAboutFocus();
+				PowerfulMagicPlayer.MessageAboutFocus_WeakRef();
 			}
+
+			//
 
 			if( !this.IsMagicItemAllowedForUse() ) {
 				if( this.player.controlUseItem ) {
 					if( Timers.GetTimerTickDuration( "PowerfulMagicManaSicknessAlert" ) == 0 ) {
 						Main.NewText( "Too much mana sickness.", Color.Yellow );
 					}
+
 					Timers.SetTimer( "PowerfulMagicManaSicknessAlert", 60 * 5, true, () => false );
 				}
 
@@ -171,6 +178,14 @@ namespace PowerfulMagic {
 		////////////////
 
 		public override void ModifyDrawInfo( ref PlayerDrawInfo drawInfo ) {
+			if( this.FocusPercent > 0f ) {
+				if( this.player.HeldItem?.useStyle == ItemUseStyleID.HoldingOut ) {
+					drawInfo.itemLocation += new Vector2( -12f, -28f );	// 'hold out' items are weird
+				}
+			}
+
+			//
+
 			this.ApplyMeteorArmorAppearanceIf( ref drawInfo );
 		}
 	}
