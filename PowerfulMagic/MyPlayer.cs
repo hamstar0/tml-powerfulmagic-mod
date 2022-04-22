@@ -182,7 +182,9 @@ namespace PowerfulMagic {
 				Item heldItem = this.player.HeldItem;
 
 				if( heldItem?.active == true && PowerfulMagicPlayer.CanItemBeFocused(heldItem) ) {
-					drawInfo.itemLocation += new Vector2( -12f, -28f );	// 'hold out' items are weird
+					if( heldItem.useStyle == ItemUseStyleID.HoldingOut ) {
+						drawInfo.itemLocation += new Vector2( -12f, -28f ); // 'hold out' items are weird
+					}
 				}
 			}
 

@@ -1,5 +1,5 @@
 author = hamstar
-version = 1.11.0
+version = 1.11.0.1
 displayName = Powerful Magic
 modReferences = ModLibsCore@1.3.0, ModLibsGeneral@1.2.0, ModLibsCamera@1.0.0
 weakReferences = Messages@1.1.0
