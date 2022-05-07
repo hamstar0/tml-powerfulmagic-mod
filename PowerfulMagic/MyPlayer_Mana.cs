@@ -19,7 +19,6 @@ namespace PowerfulMagic {
 					//DebugLibraries.Print( "manaregen", "Old mana regen amount: "+this.player.manaRegenCount );
 				}
 				
-				// Removes 
 				this.player.manaRegenCount -= (int)( (float)this.player.manaRegen * mul );
 			}
 		}

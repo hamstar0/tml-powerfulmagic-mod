@@ -2,6 +2,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using ModLibsGeneral.Libraries.Players;
 
 
 namespace PowerfulMagic {
@@ -50,7 +51,7 @@ namespace PowerfulMagic {
 				int amt = (int)(this.FocusPercent * focusChargeRate);
 
 				if( amt > 0 ) {
-					int missingMana = this.player.statManaMax2 - this.player.statMana;
+					int missingMana = Math.Max( this.player.statManaMax2 - this.player.statMana - 1, 0 );
 					if( missingMana < amt ) {
 						amt = missingMana;
 					}
@@ -80,9 +81,11 @@ namespace PowerfulMagic {
 		private void ApplyFocusMovementChanges() {
 			var config = PowerfulMagicConfig.Instance;
 
-			this.player.maxRunSpeed *= config.Get<float>( nameof(config.FocusMoveSpeedScale) );
-			this.player.accRunSpeed = this.player.maxRunSpeed;
-			this.player.moveSpeed *= config.Get<float>( nameof(config.FocusMoveSpeedScale) );
+			if( PlayerMovementLibraries.IsOnFloor(this.player) ) {
+				this.player.maxRunSpeed *= config.Get<float>( nameof(config.FocusMoveSpeedScale) );
+				this.player.accRunSpeed = this.player.maxRunSpeed;
+				this.player.moveSpeed *= config.Get<float>( nameof(config.FocusMoveSpeedScale) );
+			}
 
 			//
 
